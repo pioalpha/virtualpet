@@ -1,23 +1,1759 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="GitLab Pages">
-    <title>Plain HTML site using GitLab Pages</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="navbar">
-      <a href="https://pages.gitlab.io/plain-html/">Plain HTML Example</a>
-      <a href="https://gitlab.com/pages/plain-html/">Repository</a>
-      <a href="https://gitlab.com/pages/">Other Examples</a>
+<html lang="pt-br">
+<head>
+    <title>PioalphaMVP - Massive Virtual Pet</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, height=device-height">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEU0OkArMjhobHEoPUPFEBIuO0L+AAC2FBZ2JyuNICOfGx7xAwTjCAlCNTvVDA1aLzQ3COjMAAAAVUlEQVQI12NgwAaCDSA0888GCItjn0szWGBJTVoGSCjWs8TleQCQYV95evdxkFT8Kpe0PLDi5WfKd4LUsN5zS1sKFolt8bwAZrCaGqNYJAgFDEpQAAAzmxafI4vZWwAAAABJRU5ErkJggg==" />
+
+    <script id="timerWorker" type="javascript/worker">
+        // Gerenciador de timers
+        // Inicia vazio
+        timers = {};
+
+        // Recebe solicitações para registrar ou remover Intervals
+        self.onmessage = (event) => {
+            if (event.data) {
+                switch(event.data.type){
+                    case "registra":
+                        if (timers[event.data.payload] === undefined) {
+                            timers[event.data.payload] = setInterval(() => executaTimer(event.data.payload), event.data.payload, event.data.payload);
+                            postMessage({type: "interval", payload: event.data.payload});
+                        }
+                        break;
+                    case "remove":
+                        if (timers[event.data.payload] !== undefined) {
+                            clearInterval(timers[event.data.payload]);
+                            delete timers[event.data.payload];
+                        }
+                        break;
+                }
+            }
+        }
+
+        // Cada vez que o intervalo é alcançado, notifica o valor
+        function executaTimer(interval) {
+            if (timers[interval] !== undefined) {
+                postMessage({type: "interval", payload: interval});
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        /*! NoSleep.min.js v0.12.0 - git.io/vfn01 - Rich Tibbett - MIT license */
+        !function(A,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.NoSleep=e():A.NoSleep=e()}(this,(function(){return function(A){var e={};function B(g){if(e[g])return e[g].exports;var o=e[g]={i:g,l:!1,exports:{}};return A[g].call(o.exports,o,o.exports,B),o.l=!0,o.exports}return B.m=A,B.c=e,B.d=function(A,e,g){B.o(A,e)||Object.defineProperty(A,e,{enumerable:!0,get:g})},B.r=function(A){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(A,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(A,"__esModule",{value:!0})},B.t=function(A,e){if(1&e&&(A=B(A)),8&e)return A;if(4&e&&"object"==typeof A&&A&&A.__esModule)return A;var g=Object.create(null);if(B.r(g),Object.defineProperty(g,"default",{enumerable:!0,value:A}),2&e&&"string"!=typeof A)for(var o in A)B.d(g,o,function(e){return A[e]}.bind(null,o));return g},B.n=function(A){var e=A&&A.__esModule?function(){return A.default}:function(){return A};return B.d(e,"a",e),e},B.o=function(A,e){return Object.prototype.hasOwnProperty.call(A,e)},B.p="",B(B.s=0)}([function(A,e,B){"use strict";var g=function(){function A(A,e){for(var B=0;B<e.length;B++){var g=e[B];g.enumerable=g.enumerable||!1,g.configurable=!0,"value"in g&&(g.writable=!0),Object.defineProperty(A,g.key,g)}}return function(e,B,g){return B&&A(e.prototype,B),g&&A(e,g),e}}();var o=B(1),E=o.webm,n=o.mp4,C=function(){return"undefined"!=typeof navigator&&parseFloat((""+(/CPU.*OS ([0-9_]{3,4})[0-9_]{0,1}|(CPU like).*AppleWebKit.*Mobile/i.exec(navigator.userAgent)||[0,""])[1]).replace("undefined","3_2").replace("_",".").replace("_",""))<10&&!window.MSStream},Q=function(){return"wakeLock"in navigator},i=function(){function A(){var e=this;if(function(A,e){if(!(A instanceof e))throw new TypeError("Cannot call a class as a function")}(this,A),this.enabled=!1,Q()){this._wakeLock=null;var B=function(){null!==e._wakeLock&&"visible"===document.visibilityState&&e.enable()};document.addEventListener("visibilitychange",B),document.addEventListener("fullscreenchange",B)}else C()?this.noSleepTimer=null:(this.noSleepVideo=document.createElement("video"),this.noSleepVideo.setAttribute("title","No Sleep"),this.noSleepVideo.setAttribute("playsinline",""),this._addSourceToVideo(this.noSleepVideo,"webm",E),this._addSourceToVideo(this.noSleepVideo,"mp4",n),this.noSleepVideo.addEventListener("loadedmetadata",(function(){e.noSleepVideo.duration<=1?e.noSleepVideo.setAttribute("loop",""):e.noSleepVideo.addEventListener("timeupdate",(function(){e.noSleepVideo.currentTime>.5&&(e.noSleepVideo.currentTime=Math.random())}))})))}return g(A,[{key:"_addSourceToVideo",value:function(A,e,B){var g=document.createElement("source");g.src=B,g.type="video/"+e,A.appendChild(g)}},{key:"enable",value:function(){var A=this;return Q()?navigator.wakeLock.request("screen").then((function(e){A._wakeLock=e,A.enabled=!0,console.log("Wake Lock active."),A._wakeLock.addEventListener("release",(function(){console.log("Wake Lock released.")}))})).catch((function(e){throw A.enabled=!1,console.error(e.name+", "+e.message),e})):C()?(this.disable(),console.warn("\n        NoSleep enabled for older iOS devices. This can interrupt\n        active or long-running network requests from completing successfully.\n        See https://github.com/richtr/NoSleep.js/issues/15 for more details.\n      "),this.noSleepTimer=window.setInterval((function(){document.hidden||(window.location.href=window.location.href.split("#")[0],window.setTimeout(window.stop,0))}),15e3),this.enabled=!0,Promise.resolve()):this.noSleepVideo.play().then((function(e){return A.enabled=!0,e})).catch((function(e){throw A.enabled=!1,e}))}},{key:"disable",value:function(){Q()?(this._wakeLock&&this._wakeLock.release(),this._wakeLock=null):C()?this.noSleepTimer&&(console.warn("\n          NoSleep now disabled for older iOS devices.\n        "),window.clearInterval(this.noSleepTimer),this.noSleepTimer=null):this.noSleepVideo.pause(),this.enabled=!1}},{key:"isEnabled",get:function(){return this.enabled}}]),A}();A.exports=i},function(A,e,B){"use strict";A.exports={webm:"data:video/webm;base64,GkXfowEAAAAAAAAfQoaBAUL3gQFC8oEEQvOBCEKChHdlYm1Ch4EEQoWBAhhTgGcBAAAAAAAVkhFNm3RALE27i1OrhBVJqWZTrIHfTbuMU6uEFlSua1OsggEwTbuMU6uEHFO7a1OsghV17AEAAAAAAACkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVSalmAQAAAAAAAEUq17GDD0JATYCNTGF2ZjU1LjMzLjEwMFdBjUxhdmY1NS4zMy4xMDBzpJBlrrXf3DCDVB8KcgbMpcr+RImIQJBgAAAAAAAWVK5rAQAAAAAAD++uAQAAAAAAADLXgQFzxYEBnIEAIrWcg3VuZIaFVl9WUDiDgQEj44OEAmJaAOABAAAAAAAABrCBsLqBkK4BAAAAAAAPq9eBAnPFgQKcgQAitZyDdW5khohBX1ZPUkJJU4OBAuEBAAAAAAAAEZ+BArWIQOdwAAAAAABiZIEgY6JPbwIeVgF2b3JiaXMAAAAAAoC7AAAAAAAAgLUBAAAAAAC4AQN2b3JiaXMtAAAAWGlwaC5PcmcgbGliVm9yYmlzIEkgMjAxMDExMDEgKFNjaGF1ZmVudWdnZXQpAQAAABUAAABlbmNvZGVyPUxhdmM1NS41Mi4xMDIBBXZvcmJpcyVCQ1YBAEAAACRzGCpGpXMWhBAaQlAZ4xxCzmvsGUJMEYIcMkxbyyVzkCGkoEKIWyiB0JBVAABAAACHQXgUhIpBCCGEJT1YkoMnPQghhIg5eBSEaUEIIYQQQgghhBBCCCGERTlokoMnQQgdhOMwOAyD5Tj4HIRFOVgQgydB6CCED0K4moOsOQghhCQ1SFCDBjnoHITCLCiKgsQwuBaEBDUojILkMMjUgwtCiJqDSTX4GoRnQXgWhGlBCCGEJEFIkIMGQcgYhEZBWJKDBjm4FITLQagahCo5CB+EIDRkFQCQAACgoiiKoigKEBqyCgDIAAAQQFEUx3EcyZEcybEcCwgNWQUAAAEACAAAoEiKpEiO5EiSJFmSJVmSJVmS5omqLMuyLMuyLMsyEBqyCgBIAABQUQxFcRQHCA1ZBQBkAAAIoDiKpViKpWiK54iOCISGrAIAgAAABAAAEDRDUzxHlETPVFXXtm3btm3btm3btm3btm1blmUZCA1ZBQBAAAAQ0mlmqQaIMAMZBkJDVgEACAAAgBGKMMSA0JBVAABAAACAGEoOogmtOd+c46BZDppKsTkdnEi1eZKbirk555xzzsnmnDHOOeecopxZDJoJrTnnnMSgWQqaCa0555wnsXnQmiqtOeeccc7pYJwRxjnnnCateZCajbU555wFrWmOmkuxOeecSLl5UptLtTnnnHPOOeecc84555zqxekcnBPOOeecqL25lpvQxTnnnE/G6d6cEM4555xzzjnnnHPOOeecIDRkFQAABABAEIaNYdwpCNLnaCBGEWIaMulB9+gwCRqDnELq0ehopJQ6CCWVcVJKJwgNWQUAAAIAQAghhRRSSCGFFFJIIYUUYoghhhhyyimnoIJKKqmooowyyyyzzDLLLLPMOuyssw47DDHEEEMrrcRSU2011lhr7jnnmoO0VlprrbVSSimllFIKQkNWAQAgAAAEQgYZZJBRSCGFFGKIKaeccgoqqIDQkFUAACAAgAAAAABP8hzRER3RER3RER3RER3R8RzPESVREiVREi3TMjXTU0VVdWXXlnVZt31b2IVd933d933d+HVhWJZlWZZlWZZlWZZlWZZlWZYgNGQVAAACAAAghBBCSCGFFFJIKcYYc8w56CSUEAgNWQUAAAIACAAAAHAUR3EcyZEcSbIkS9IkzdIsT/M0TxM9URRF0zRV0RVdUTdtUTZl0zVdUzZdVVZtV5ZtW7Z125dl2/d93/d93/d93/d93/d9XQdCQ1YBABIAADqSIymSIimS4ziOJElAaMgqAEAGAEAAAIriKI7jOJIkSZIlaZJneZaomZrpmZ4qqkBoyCoAABAAQAAAAAAAAIqmeIqpeIqoeI7oiJJomZaoqZoryqbsuq7ruq7ruq7ruq7ruq7ruq7ruq7ruq7ruq7ruq7ruq7ruq4LhIasAgAkAAB0JEdyJEdSJEVSJEdygNCQVQCADACAAAAcwzEkRXIsy9I0T/M0TxM90RM901NFV3SB0JBVAAAgAIAAAAAAAAAMybAUy9EcTRIl1VItVVMt1VJF1VNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVN0zRNEwgNWQkAkAEAkBBTLS3GmgmLJGLSaqugYwxS7KWxSCpntbfKMYUYtV4ah5RREHupJGOKQcwtpNApJq3WVEKFFKSYYyoVUg5SIDRkhQAQmgHgcBxAsixAsiwAAAAAAAAAkDQN0DwPsDQPAAAAAAAAACRNAyxPAzTPAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA0jRA8zxA8zwAAAAAAAAA0DwP8DwR8EQRAAAAAAAAACzPAzTRAzxRBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA0jRA8zxA8zwAAAAAAAAAsDwP8EQR0DwRAAAAAAAAACzPAzxRBDzRAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAEOAAABBgIRQasiIAiBMAcEgSJAmSBM0DSJYFTYOmwTQBkmVB06BpME0AAAAAAAAAAAAAJE2DpkHTIIoASdOgadA0iCIAAAAAAAAAAAAAkqZB06BpEEWApGnQNGgaRBEAAAAAAAAAAAAAzzQhihBFmCbAM02IIkQRpgkAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAGHAAAAgwoQwUGrIiAIgTAHA4imUBAIDjOJYFAACO41gWAABYliWKAABgWZooAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAYcAAACDChDBQashIAiAIAcCiKZQHHsSzgOJYFJMmyAJYF0DyApgFEEQAIAAAocAAACLBBU2JxgEJDVgIAUQAABsWxLE0TRZKkaZoniiRJ0zxPFGma53meacLzPM80IYqiaJoQRVE0TZimaaoqME1VFQAAUOAAABBgg6bE4gCFhqwEAEICAByKYlma5nmeJ4qmqZokSdM8TxRF0TRNU1VJkqZ5niiKommapqqyLE3zPFEURdNUVVWFpnmeKIqiaaqq6sLzPE8URdE0VdV14XmeJ4qiaJqq6roQRVE0TdNUTVV1XSCKpmmaqqqqrgtETxRNU1Vd13WB54miaaqqq7ouEE3TVFVVdV1ZBpimaaqq68oyQFVV1XVdV5YBqqqqruu6sgxQVdd1XVmWZQCu67qyLMsCAAAOHAAAAoygk4wqi7DRhAsPQKEhKwKAKAAAwBimFFPKMCYhpBAaxiSEFEImJaXSUqogpFJSKRWEVEoqJaOUUmopVRBSKamUCkIqJZVSAADYgQMA2IGFUGjISgAgDwCAMEYpxhhzTiKkFGPOOScRUoox55yTSjHmnHPOSSkZc8w556SUzjnnnHNSSuacc845KaVzzjnnnJRSSuecc05KKSWEzkEnpZTSOeecEwAAVOAAABBgo8jmBCNBhYasBABSAQAMjmNZmuZ5omialiRpmud5niiapiZJmuZ5nieKqsnzPE8URdE0VZXneZ4oiqJpqirXFUXTNE1VVV2yLIqmaZqq6rowTdNUVdd1XZimaaqq67oubFtVVdV1ZRm2raqq6rqyDFzXdWXZloEsu67s2rIAAPAEBwCgAhtWRzgpGgssNGQlAJABAEAYg5BCCCFlEEIKIYSUUggJAAAYcAAACDChDBQashIASAUAAIyx1lprrbXWQGettdZaa62AzFprrbXWWmuttdZaa6211lJrrbXWWmuttdZaa6211lprrbXWWmuttdZaa6211lprrbXWWmuttdZaa6211lprrbXWWmstpZRSSimllFJKKaWUUkoppZRSSgUA+lU4APg/2LA6wknRWGChISsBgHAAAMAYpRhzDEIppVQIMeacdFRai7FCiDHnJKTUWmzFc85BKCGV1mIsnnMOQikpxVZjUSmEUlJKLbZYi0qho5JSSq3VWIwxqaTWWoutxmKMSSm01FqLMRYjbE2ptdhqq7EYY2sqLbQYY4zFCF9kbC2m2moNxggjWywt1VprMMYY3VuLpbaaizE++NpSLDHWXAAAd4MDAESCjTOsJJ0VjgYXGrISAAgJACAQUooxxhhzzjnnpFKMOeaccw5CCKFUijHGnHMOQgghlIwx5pxzEEIIIYRSSsaccxBCCCGEkFLqnHMQQgghhBBKKZ1zDkIIIYQQQimlgxBCCCGEEEoopaQUQgghhBBCCKmklEIIIYRSQighlZRSCCGEEEIpJaSUUgohhFJCCKGElFJKKYUQQgillJJSSimlEkoJJYQSUikppRRKCCGUUkpKKaVUSgmhhBJKKSWllFJKIYQQSikFAAAcOAAABBhBJxlVFmGjCRcegEJDVgIAZAAAkKKUUiktRYIipRikGEtGFXNQWoqocgxSzalSziDmJJaIMYSUk1Qy5hRCDELqHHVMKQYtlRhCxhik2HJLoXMOAAAAQQCAgJAAAAMEBTMAwOAA4XMQdAIERxsAgCBEZohEw0JweFAJEBFTAUBigkIuAFRYXKRdXECXAS7o4q4DIQQhCEEsDqCABByccMMTb3jCDU7QKSp1IAAAAAAADADwAACQXAAREdHMYWRobHB0eHyAhIiMkAgAAAAAABcAfAAAJCVAREQ0cxgZGhscHR4fICEiIyQBAIAAAgAAAAAggAAEBAQAAAAAAAIAAAAEBB9DtnUBAAAAAAAEPueBAKOFggAAgACjzoEAA4BwBwCdASqwAJAAAEcIhYWIhYSIAgIABhwJ7kPfbJyHvtk5D32ych77ZOQ99snIe+2TkPfbJyHvtk5D32ych77ZOQ99YAD+/6tQgKOFggADgAqjhYIAD4AOo4WCACSADqOZgQArADECAAEQEAAYABhYL/QACIBDmAYAAKOFggA6gA6jhYIAT4AOo5mBAFMAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCAGSADqOFggB6gA6jmYEAewAxAgABEBAAGAAYWC/0AAiAQ5gGAACjhYIAj4AOo5mBAKMAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCAKSADqOFggC6gA6jmYEAywAxAgABEBAAGAAYWC/0AAiAQ5gGAACjhYIAz4AOo4WCAOSADqOZgQDzADECAAEQEAAYABhYL/QACIBDmAYAAKOFggD6gA6jhYIBD4AOo5iBARsAEQIAARAQFGAAYWC/0AAiAQ5gGACjhYIBJIAOo4WCATqADqOZgQFDADECAAEQEAAYABhYL/QACIBDmAYAAKOFggFPgA6jhYIBZIAOo5mBAWsAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCAXqADqOFggGPgA6jmYEBkwAxAgABEBAAGAAYWC/0AAiAQ5gGAACjhYIBpIAOo4WCAbqADqOZgQG7ADECAAEQEAAYABhYL/QACIBDmAYAAKOFggHPgA6jmYEB4wAxAgABEBAAGAAYWC/0AAiAQ5gGAACjhYIB5IAOo4WCAfqADqOZgQILADECAAEQEAAYABhYL/QACIBDmAYAAKOFggIPgA6jhYICJIAOo5mBAjMAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCAjqADqOFggJPgA6jmYECWwAxAgABEBAAGAAYWC/0AAiAQ5gGAACjhYICZIAOo4WCAnqADqOZgQKDADECAAEQEAAYABhYL/QACIBDmAYAAKOFggKPgA6jhYICpIAOo5mBAqsAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCArqADqOFggLPgA6jmIEC0wARAgABEBAUYABhYL/QACIBDmAYAKOFggLkgA6jhYIC+oAOo5mBAvsAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCAw+ADqOZgQMjADECAAEQEAAYABhYL/QACIBDmAYAAKOFggMkgA6jhYIDOoAOo5mBA0sAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCA0+ADqOFggNkgA6jmYEDcwAxAgABEBAAGAAYWC/0AAiAQ5gGAACjhYIDeoAOo4WCA4+ADqOZgQObADECAAEQEAAYABhYL/QACIBDmAYAAKOFggOkgA6jhYIDuoAOo5mBA8MAMQIAARAQABgAGFgv9AAIgEOYBgAAo4WCA8+ADqOFggPkgA6jhYID+oAOo4WCBA+ADhxTu2sBAAAAAAAAEbuPs4EDt4r3gQHxghEr8IEK",mp4:"data:video/mp4;base64,AAAAHGZ0eXBNNFYgAAACAGlzb21pc28yYXZjMQAAAAhmcmVlAAAGF21kYXTeBAAAbGliZmFhYyAxLjI4AABCAJMgBDIARwAAArEGBf//rdxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNDIgcjIgOTU2YzhkOCAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMTQgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0wIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDE6MHgxMTEgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTAgY3FtPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz02IGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MCB3ZWlnaHRwPTAga2V5aW50PTI1MCBrZXlpbnRfbWluPTI1IHNjZW5lY3V0PTQwIGludHJhX3JlZnJlc2g9MCByY19sb29rYWhlYWQ9NDAgcmM9Y3JmIG1idHJlZT0xIGNyZj0yMy4wIHFjb21wPTAuNjAgcXBtaW49MCBxcG1heD02OSBxcHN0ZXA9NCB2YnZfbWF4cmF0ZT03NjggdmJ2X2J1ZnNpemU9MzAwMCBjcmZfbWF4PTAuMCBuYWxfaHJkPW5vbmUgZmlsbGVyPTAgaXBfcmF0aW89MS40MCBhcT0xOjEuMDAAgAAAAFZliIQL8mKAAKvMnJycnJycnJycnXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXiEASZACGQAjgCEASZACGQAjgAAAAAdBmjgX4GSAIQBJkAIZACOAAAAAB0GaVAX4GSAhAEmQAhkAI4AhAEmQAhkAI4AAAAAGQZpgL8DJIQBJkAIZACOAIQBJkAIZACOAAAAABkGagC/AySEASZACGQAjgAAAAAZBmqAvwMkhAEmQAhkAI4AhAEmQAhkAI4AAAAAGQZrAL8DJIQBJkAIZACOAAAAABkGa4C/AySEASZACGQAjgCEASZACGQAjgAAAAAZBmwAvwMkhAEmQAhkAI4AAAAAGQZsgL8DJIQBJkAIZACOAIQBJkAIZACOAAAAABkGbQC/AySEASZACGQAjgCEASZACGQAjgAAAAAZBm2AvwMkhAEmQAhkAI4AAAAAGQZuAL8DJIQBJkAIZACOAIQBJkAIZACOAAAAABkGboC/AySEASZACGQAjgAAAAAZBm8AvwMkhAEmQAhkAI4AhAEmQAhkAI4AAAAAGQZvgL8DJIQBJkAIZACOAAAAABkGaAC/AySEASZACGQAjgCEASZACGQAjgAAAAAZBmiAvwMkhAEmQAhkAI4AhAEmQAhkAI4AAAAAGQZpAL8DJIQBJkAIZACOAAAAABkGaYC/AySEASZACGQAjgCEASZACGQAjgAAAAAZBmoAvwMkhAEmQAhkAI4AAAAAGQZqgL8DJIQBJkAIZACOAIQBJkAIZACOAAAAABkGawC/AySEASZACGQAjgAAAAAZBmuAvwMkhAEmQAhkAI4AhAEmQAhkAI4AAAAAGQZsAL8DJIQBJkAIZACOAAAAABkGbIC/AySEASZACGQAjgCEASZACGQAjgAAAAAZBm0AvwMkhAEmQAhkAI4AhAEmQAhkAI4AAAAAGQZtgL8DJIQBJkAIZACOAAAAABkGbgCvAySEASZACGQAjgCEASZACGQAjgAAAAAZBm6AnwMkhAEmQAhkAI4AhAEmQAhkAI4AhAEmQAhkAI4AhAEmQAhkAI4AAAAhubW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAABDcAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAzB0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAA+kAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAALAAAACQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAPpAAAAAAABAAAAAAKobWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAB1MAAAdU5VxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAACU21pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAhNzdGJsAAAAr3N0c2QAAAAAAAAAAQAAAJ9hdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAALAAkABIAAAASAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGP//AAAALWF2Y0MBQsAN/+EAFWdCwA3ZAsTsBEAAAPpAADqYA8UKkgEABWjLg8sgAAAAHHV1aWRraEDyXyRPxbo5pRvPAyPzAAAAAAAAABhzdHRzAAAAAAAAAAEAAAAeAAAD6QAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAABAAAAAQAAAIxzdHN6AAAAAAAAAAAAAAAeAAADDwAAAAsAAAALAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAAiHN0Y28AAAAAAAAAHgAAAEYAAANnAAADewAAA5gAAAO0AAADxwAAA+MAAAP2AAAEEgAABCUAAARBAAAEXQAABHAAAASMAAAEnwAABLsAAATOAAAE6gAABQYAAAUZAAAFNQAABUgAAAVkAAAFdwAABZMAAAWmAAAFwgAABd4AAAXxAAAGDQAABGh0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAACAAAAAAAABDcAAAAAAAAAAAAAAAEBAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAQkAAADcAABAAAAAAPgbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAC7gAAAykBVxAAAAAAALWhkbHIAAAAAAAAAAHNvdW4AAAAAAAAAAAAAAABTb3VuZEhhbmRsZXIAAAADi21pbmYAAAAQc21oZAAAAAAAAAAAAAAAJGRpbmYAAAAcZHJlZgAAAAAAAAABAAAADHVybCAAAAABAAADT3N0YmwAAABnc3RzZAAAAAAAAAABAAAAV21wNGEAAAAAAAAAAQAAAAAAAAAAAAIAEAAAAAC7gAAAAAAAM2VzZHMAAAAAA4CAgCIAAgAEgICAFEAVBbjYAAu4AAAADcoFgICAAhGQBoCAgAECAAAAIHN0dHMAAAAAAAAAAgAAADIAAAQAAAAAAQAAAkAAAAFUc3RzYwAAAAAAAAAbAAAAAQAAAAEAAAABAAAAAgAAAAIAAAABAAAAAwAAAAEAAAABAAAABAAAAAIAAAABAAAABgAAAAEAAAABAAAABwAAAAIAAAABAAAACAAAAAEAAAABAAAACQAAAAIAAAABAAAACgAAAAEAAAABAAAACwAAAAIAAAABAAAADQAAAAEAAAABAAAADgAAAAIAAAABAAAADwAAAAEAAAABAAAAEAAAAAIAAAABAAAAEQAAAAEAAAABAAAAEgAAAAIAAAABAAAAFAAAAAEAAAABAAAAFQAAAAIAAAABAAAAFgAAAAEAAAABAAAAFwAAAAIAAAABAAAAGAAAAAEAAAABAAAAGQAAAAIAAAABAAAAGgAAAAEAAAABAAAAGwAAAAIAAAABAAAAHQAAAAEAAAABAAAAHgAAAAIAAAABAAAAHwAAAAQAAAABAAAA4HN0c3oAAAAAAAAAAAAAADMAAAAaAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAACMc3RjbwAAAAAAAAAfAAAALAAAA1UAAANyAAADhgAAA6IAAAO+AAAD0QAAA+0AAAQAAAAEHAAABC8AAARLAAAEZwAABHoAAASWAAAEqQAABMUAAATYAAAE9AAABRAAAAUjAAAFPwAABVIAAAVuAAAFgQAABZ0AAAWwAAAFzAAABegAAAX7AAAGFwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTUuMzMuMTAw"}}])}));
+    </script>
+</head>
+<body>
+    <div style="background-color: lightgray; ">
+        <!--canvas id="virtualPetsBar" width="1280" height="720" style="border: 1px solid #000; height:100%; width: 100%;"-->
+        <canvas id="virtualPetsBar" style="border: 1px solid #000; height:100%; width: 100%;">
+                Seu navegador não possui suporte a tecnologia Canvas
+        </canvas>
+        <div id="interface">
+            <input type="button" class="iniciar tiny" value="+" onclick="gerenciarPets.criarPet('FoxyB'+Object.keys(gerenciarPets.pets).length).visivel = true;" style="display: none; font-size: 0.7em !important;"  />
+            <input type="button" class="base tiny" value="FOOD" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="base tiny" value="LAMP" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="base tiny" value="PLAY" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="base tiny" value="MEDS" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="base" value="BATH" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="base stats" value="STATS" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="base" value="SHOUT" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+
+            <input type="button" class="food" value="MEAL" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="food" value="SNACK" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+
+            <input type="button" class="lamp" value="ON" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="lamp" value="OFF" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+
+            <input type="button" class="play" value="LEFT" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+            <input type="button" class="play" value="RIGHT" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;"/>
+
+            <input type="button" class="food lamp play stats" value="BACK" onclick="gerenciarPets.atualizaInterface(this);" style="display: none; font-size: 0.7em !important;" />
+        </div>
     </div>
 
-    <h1>Hello World!</h1>
 
-    <p>
-      This is a simple plain-HTML website on GitLab Pages, without any fancy static site generator.
-    </p>
-  </body>
+    <script type="text/javascript">
+        var noSleep = new NoSleep();
+
+        // Enable wake lock.
+        // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
+        document.addEventListener('click', function enableNoSleep() {
+            document.removeEventListener('click', enableNoSleep, false);
+            noSleep.enable();
+        }, false);
+
+        // Task Manager SHIFT + ESC
+        // https://developer.chrome.com/docs/extensions/reference/processes/
+        // https://medium.com/codex/speeding-up-your-js-react-app-using-chromes-performance-monitor-8f77cdaecce9
+        // https://obfuscator.io/
+        // preciso de um mapa para cada imagem e da regra para acessar cada uma delas
+        class Imagens {
+            //  x, y, l, a, o
+            static Vazio = [[0, 0, 1, 1,""]];
+            static Prato = [[2, 3, 7, 7,""], [10, 3, 7, 7,""], [18, 3, 7, 7,""], [26, 3, 7, 7,""]]; // V
+            static Pao = [[34, 3, 8, 7,""], [43, 3, 7, 7,""], [51, 3, 7, 7,""]]; // <V
+            static Bolinho = [[58, 3, 8, 7,""], [67, 3, 8, 7,""], [76, 3, 6, 7,""]]; // <V
+            static Batata = [[83, 3, 8, 7,""], [92, 3, 4, 7,""], [98, 3, 4, 7,""]]; // <V
+            static Bala = [[103, 2, 8, 8,""], [112, 4, 6, 6,""], [119, 6, 6, 4,""]]; // >V
+            static Bolo = [[126, 2, 8, 8,""], [135, 2, 5, 8,""], [141, 2, 3, 8,""]]; // <V
+
+            static Aborrecido = [[145, 3, 3, 7,""], [149, 3, 7, 7,""]]; // <V
+            static Feliz = [[157, 2, 8, 8,""]]; // <V
+            static Doenca = [[166, 3, 7, 7,""]]; // <V
+            static Dormindo = [[174, 4, 7, 6,""], [182, 4, 4, 6,""]];
+            static Seta = [[187, 3, 6, 7,""], [194, 3, 6, 7,""]]; // <V Esquerda, direita
+            static Coracao = [[201, 3, 7, 7,""]]; // <V
+            static Conteiner = [[209, 3, 7, 7,""]]; // <V
+            static Balanca = [[217, 3, 8, 7,""]]; // <V
+            static Yr = [[226, 4, 7, 6,""]]; // <V
+            static Japones = [[234, 3, 6, 7,""]]; // <V
+            static Peso = [[241, 4, 7, 6,""], [249, 4, 7, 6,""], [257, 3, 6, 7,""]];  // <V Oz, lb., g
+            static Vs = [[228, 43, 7, 7,""]];
+            static Discipline = [[238, 51,30,8,""]];
+            static Barra = [[238,59,31,7,""], [209, 102, 5, 2], [209, 102, 13, 2], [209, 102, 19, 2], [209, 102, 26, 2]];
+            static Hungry = [[208,76,24,8,""]];
+            static Happy = [[235,76,22,8,""]];
+            static Set = [[208,43,12,7,""]];
+
+            static OvoP1J = [[2, 16, 10, 11,""], [13, 16, 10, 11,""], [24, 13, 10, 14,""]]; // V
+            static OvoP1A = [[35, 16, 10, 11,""], [46, 17, 12, 10,""], [59, 14, 16, 13,""]]; // V
+            static OvoP21 = [[76, 16, 10, 11,""], [87, 18, 12, 9,""], [100, 14, 10, 13,""]]; // V
+            static OvoP22 = [[111, 16, 10, 11,""], [122, 18, 12, 9,""], [135, 14, 16, 13,""]]; // V
+            static OvoP23 = [[152, 14, 12, 13,""], [165, 16, 12, 11,""], [178, 12, 16, 15,""]]; // V
+
+            static MortoP1J = [[195, 13, 10, 11,""], [206, 13, 12, 14,""]];  // <^ Fantasma, Lapide
+            static Nave = [[219, 12, 14, 14,""]]; // <^
+            static MortoP1A = [[234, 11, 14, 15,""], [249, 12, 14, 14,""]];  // <^ Luz, Anjo
+
+            static BabitchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static BabitchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static BabitchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static BabitchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static BabitchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static BabitchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static BabitchiP2Idle = [[72, 30, 8, 8,""], [81, 32, 8, 6,""]]; // <V
+            static BabitchiP2Comendo = [[90, 30, 8, 8,""], [99, 30, 8, 8,""]]; // <V
+            static BabitchiP2Feliz = [[108, 30, 8, 8,""]]; // <V
+            static BabitchiP2Aborrecido = [[117, 30, 8, 8,""]]; // <V
+            static BabitchiP2Doente = [[126, 33, 8, 5,""]]; // <V
+
+            
+            static MarutchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static MarutchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static MarutchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static MarutchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static MarutchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static MarutchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static TamachiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static TamachiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static TamachiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static TamachiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static TamachiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static TamachiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static KuchiTamatchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static KuchiTamatchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static KuchiTamatchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static KuchiTamatchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static KuchiTamatchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static KuchiTamatchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static MametchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static MametchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static MametchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static MametchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static MametchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static MametchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static GinjirotchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static GinjirotchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static GinjirotchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static GinjirotchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static GinjirotchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static GinjirotchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static MasktuchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static MasktuchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static MasktuchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static MasktuchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static MasktuchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static MasktuchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static BillP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static BillP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static BillP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static BillP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static BillP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static BillP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static KuchipatchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static KuchipatchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static KuchipatchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static KuchipatchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static KuchipatchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static KuchipatchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static NyorotchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static NyorotchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static NyorotchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static NyorotchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static NyorotchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static NyorotchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+            static TarakotchiP1Idle = [[2, 32, 6, 6,""], [9, 35, 8, 3,""]]; // V
+            static TarakotchiP1Negando = [[18, 32, 6, 6,""], [18, 32, 6, 6,"flipH"]];
+            static TarakotchiP1Comendo = [[25, 31, 6, 7,""]]; // V
+            static TarakotchiP1Feliz = [[32, 32, 6, 6,""]]; // V
+            static TarakotchiP1Aborrecido = [[39, 31, 8, 7,""]]; // V
+            static TarakotchiP1Doente = [[48, 35, 8, 3,""]]; // V
+
+
+            static Meal = [[208, 94, 18, 6,""]];
+            static Snack = [[229, 93, 23, 7,""]];
+
+            static Fonte3x5 = [
+                [208, 29, 3, 5,""], // 0
+                [212, 29, 3, 5,""], // 1
+                [216, 29, 3, 5,""], // 2
+                [220, 29, 3, 5,""], // 3
+                [224, 29, 3, 5,""], // 4
+                [228, 29, 3, 5,""], // 5
+                [232, 29, 3, 5,""], // 6
+                [236, 29, 3, 5,""], // 7
+                [240, 29, 3, 5,""], // 8
+                [244, 29, 3, 5,""], // 9
+                [248, 29, 1, 5,""], // :
+
+                [142, 114, 3, 5,""], // A => 11
+                [146, 114, 3, 5,""], // B
+                [150, 114, 3, 5,""], // C
+                [154, 114, 3, 5,""], // D
+                [158, 114, 3, 5,""], // E
+                [162, 114, 3, 5,""], // F
+                [166, 114, 3, 5,""], // G
+                [170, 114, 3, 5,""], // H
+                [174, 114, 3, 5,""], // I
+                [178, 114, 3, 5,""], // J
+                [182, 114, 3, 5,""], // K
+                [186, 114, 3, 5,""], // L
+                [190, 114, 3, 5,""], // M
+                [194, 114, 3, 5,""], // N
+                [198, 114, 3, 5,""], // O
+                [202, 114, 3, 5,""], // P
+                [206, 114, 3, 5,""], // Q
+                [210, 114, 3, 5,""], // R
+                [214, 114, 3, 5,""], // S
+                [218, 114, 3, 5,""], // T
+                [222, 114, 3, 5,""], // U
+                [226, 114, 3, 5,""], // V
+                [230, 114, 3, 5,""], // W
+                [234, 114, 3, 5,""], // X
+                [238, 114, 3, 5,""], // Y
+                [242, 114, 3, 5,""], // Z
+
+                [142, 120, 3, 5,""], // a => 37
+                [146, 120, 3, 5,""], // b
+                [150, 120, 3, 5,""], // c
+                [154, 120, 3, 5,""], // d
+                [158, 120, 3, 5,""], // e
+                [162, 120, 3, 5,""], // f
+                [166, 120, 3, 5,""], // g
+                [170, 120, 3, 5,""], // h
+                [174, 120, 3, 5,""], // i
+                [178, 120, 3, 5,""], // j
+                [182, 120, 3, 5,""], // k
+                [186, 120, 3, 5,""], // l
+                [190, 120, 3, 5,""], // m
+                [194, 120, 3, 5,""], // n
+                [198, 120, 3, 5,""], // o
+                [202, 120, 3, 5,""], // p
+                [206, 120, 3, 5,""], // q
+                [210, 120, 3, 5,""], // e
+                [214, 120, 3, 5,""], // s
+                [218, 120, 3, 5,""], // t
+                [222, 120, 3, 5,""], // u
+                [226, 120, 3, 5,""], // v
+                [230, 120, 3, 5,""], // w
+                [234, 120, 3, 5,""], // x
+                [238, 120, 3, 5,""], // y
+                [242, 120, 3, 5,""], // z
+            ];
+            static Fonte4x7 = [
+                [208, 35, 4, 7, ""], // 0 4x7
+                [213, 35, 2, 7, ""], // 1 2x7
+                [216, 35, 4, 7, ""], // 2 4x7
+                [221, 35, 4, 7, ""], // 3 4x7
+                [226, 35, 4, 7, ""], // 4 4x7
+                [231, 35, 4, 7, ""], // 5 4x7
+                [236, 35, 4, 7, ""], // 6 4x7
+                [241, 35, 4, 7, ""], // 7 4x7
+                [246, 35, 4, 7, ""], // 8 4x7
+                [251, 35, 4, 7, ""], // 9 4x7
+                [256, 35, 1, 7, ""], // : 1x7
+            ];
+            static Segundos = [
+                [208, 102, 1, 5,""], // 0
+                [209, 102, 1, 5,""], // 1
+                [210, 102, 1, 5,""], // 2
+                [211, 102, 1, 5,""], // 3
+                [212, 102, 1, 5,""], // 4
+                [213, 102, 1, 5,""], // 5
+                [214, 102, 1, 5,""], // 6
+                [215, 102, 1, 5,""], // 7
+                [216, 102, 1, 5,""], // 8
+                [217, 102, 1, 5,""], // 9
+            ];
+            static Banho = [[135, 29, 6, 16,""]]; // Banho
+            static On = [[208, 59, 12, 6,""]];
+            static Off = [[221, 59, 15, 6,""]];
+            static DormindoLuzApagada = [[142, 29, 32, 16,""], [175, 29, 32, 16,""]];
+            static Fezes = [[122, 46, 9, 8,""], [132, 46, 9, 8,""]];
+            static Evoluindo = [
+                [142, 46, 32, 16,""],
+                [175, 46, 32, 16,""],
+                [142, 62, 32, 16,""],
+                [175, 62, 32, 16,""],
+                [142, 79, 32, 16,""],
+                [175, 79, 32, 16,""],
+                [142, 96, 32, 16,""],
+                [175, 96, 32, 16,""],
+            ];
+            /*
+            [], // MarutchiP1 Idle 1
+            [], // MarutchiP1 Idle 2
+            [], // MarutchiP1 ???
+            [], // MarutchiP1 Comendo 1
+            [], // MarutchiP1 Negando
+            [], // MarutchiP1 Feliz
+            [], // MarutchiP1 Comendo 2
+            [], // MarutchiP1 Dormindo 1
+            [], // MarutchiP1 Dormindo 2
+
+            [], // MarutchiP2 Idle 1
+            [], // MarutchiP2 Idle 2
+            [], // MarutchiP2 ???
+            [], // MarutchiP2 Comendo 1
+            [], // MarutchiP2 Negando
+            [], // MarutchiP2 Feliz
+            [], // MarutchiP2 Comendo 2
+            [], // MarutchiP2 Dormindo 1
+            [], // MarutchiP2 Dormindo 2
+
+
+            [], // P 4x5
+            [], // A 4x5
+            [], // M 4x5
+            */
+            //}
+
+            constructor() {
+                this.tamagotchiP1P2 = new Image();
+                // https://tinypng.com/
+                // https://base64.guru/converter/encode/image/bmp
+                this.tamagotchiP1P2.onload = async (e) => {
+                //this.tamagotchiP1P2.onload = (e) => {
+                    var off = new OffscreenCanvas(e.srcElement.width, e.srcElement.height);
+                    var ctx = off.getContext("2d", { willReadFrequently: true });
+                    //var ctx = off.getContext("2d");
+
+                    // Carrega o Sprite Sheet
+                    ctx.drawImage(e.srcElement, 0, 0);
+                    var image = null;
+                    var imageData = null;
+
+                    for (const key in Imagens) {
+                        for (const value in Imagens[key]){
+                            // pega sprites individualmente
+                            image = ctx.getImageData(Imagens[key][value][0], Imagens[key][value][1], Imagens[key][value][2], Imagens[key][value][3]);
+                            imageData = image.data;
+
+                            // Aplica transparência
+                            for (var i = 0; i < imageData.length; i+= 4) {
+                                var width = Imagens[key][value][2];
+                                var teste = i % (width*4);
+                                var temp4 =  i + ((width -1) * 4) - ((i % (width * 4))*2);
+                                if (Imagens[key][value][4] == "flipH"
+                                    && (imageData[i] != imageData[temp4]
+                                        || imageData[i+1] != imageData[temp4+1]
+                                        || imageData[i+2] != imageData[temp4+2]
+                                        || imageData[i+3] != imageData[temp4+3]
+                                    )
+                                    && teste < (width * 2)){
+
+                                    var temp  = imageData[i];
+                                    var temp1 = imageData[i+1];
+                                    var temp2 = imageData[i+2];
+                                    var temp3 = imageData[i+3];
+
+                                    imageData[i]   = imageData[temp4];
+                                    imageData[i+1] = imageData[temp4 + 1];
+                                    imageData[i+2] = imageData[temp4 + 2];
+                                    imageData[i+3] = imageData[temp4 + 3];
+
+                                    imageData[temp4] = temp;
+                                    imageData[temp4+1] = temp1;
+                                    imageData[temp4+2] = temp2;
+                                    imageData[temp4+3] = temp3;
+                                }
+                                if(imageData[i] === 255 && imageData[i+1] === 255 && imageData[i+2] === 255){
+                                    imageData[i+3] = 0;
+                                }
+                            }
+                            image = new ImageData(imageData, Imagens[key][value][2], Imagens[key][value][3]);
+
+                            // Armazena o sprite no array de imagem
+                            //Promise.all([
+                            Imagens[key][value].push(await createImageBitmap(image));
+                            //Imagens[key][value].push(createImageBitmap(image).then((result) => {return result}));
+                            //createImageBitmap(image).then((result) => { Imagens[key][value].push(result)});
+                            //]);
+                            //console.log(Imagens[key]);
+                        }
+                    }
+                    aplicaStyle("iniciar", "initial");
+                };
+                this.tamagotchiP1P2.src = "data:image/bmp;base64,Qk2WOwAAAAAAAD4AAAAoAAAADQEAAKYBAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA///////////////////////////////////////////////////4AAD////////////////////////////////////////////4AAD5+Pz+f58fz5/Pz4AD////////////vf//8///////j//4AAD8/f8A/8d/YD/gH3/9//////////+/vf///f//////5//4AAD/A//Pvjh+ue/5/2AN//////////+6jHOOPcOJwicBhA44AADHnvxJn0n8uefJH1VV//////////+2ta9u2cE5wIc5gQz4AADrnnuGcfD7wd+250ql//////////+utaFu1ckBQIU5hAwYAAD8kft7+hl8/r9pb2AN//////////+Hta1u1cwgDIU4HwSYAAD/D+b9/8D/f3zZv2/t//////////+6jHOONcyMkII5hEo4AAD+9/W2/73/Wb6/34AD//////////+7///u/8n//+I5n//4AAD9+/szf37+2N9mb7M3//////////+7///u/8H//+c4H//4AAD7bfJ5Ptt8mE5PJyeT///////////H///u/8P//+c8P//4AAD2ZvL9PZm6mU5fpy/T///////////////////////////4AADkYmv/WRia3NV/6r/1///////////////////////////4AADlan3++Vqbf7+/39/v///////////////////////////4AADW9r4B9b2rgH/AP+Af///////////////////////////4AAD7/f///v98///////////////////////////////////4AAD8A////wD9///////////////////////////////////4AAD////////////////////////////////////////////4AADx+Pj8fH4+Px8fjwAHAAf////////////////////////4AADul3d7u6Xd0u7pdv/6//v////////////////////////4AADbb61m1ttrbbX22sAawBv////////////////////////4AADaTbYauojdRG2yWqqqqqv////////////////////////4AADs1XjwfD4+Hx6rNpVKlUv//////////////////h/////4AADxgP6G/oD/QH8BjsAawBv//////////////////A/////4AAD9df74/r7/UX+uvt/a39v/////////////////z3/////4AAD9xf8D/mN/Mb+jvwAHAAf/////////////////1uP////4AAD+Gf6X/11/sb/Af+l/9L//////////////////4Af////4AAD97/37/39/v7+/v9+/79/////////////////v98/////4AAD7N/37/gg/BB9x39+/79/////////////////n7+f////4AAD79/xj/qq/VV9/28Y/4x//////////////4AAD7+f////4AADa1+27/ggvBBdM19237tv/////////////4AAB78H////4AADr9/X7/39fv69719+v79f/////////////4AAD79n////4AADtL/aX/6bf02+/r+lv9Lf/////////////5//n64H////4AADyH/kP/8E/4J/Af/Cf+E//////////////5//v77n////4AAD/////////////////////////////////5///9oH////4AADqqqqrqqtVVqqsABwAH///////////////5///+8//8fj4AAD1VdVX1Veqr1Vb/+v/7///////////////5////B//7pd4AADwA+AHwA+AHwA7AGsAb///////////////////////20+4AAD3++/33++/33+6qqqqr////////////////////x//2g24AADD8IQhD8IfhD8KVSpVL///////////////////////7NV4AADYAIPNYALABYALAGsAb//////////////+AP//////8YD4AADZ8+dNb87fnb87f2t/b//////////////9/n///q///WX4AADCM+fhCM4RnCM8ABwAH//////////////+/B//4rf//cX4AAD3++63uHdgv3++/39/v/////////////9+/Z/v/Vf//hn4AADl2c/zv/Zg3n+c/z5/n/////////////8+uB/n+A///c/4AADggcPDAwJqzhwcOD4cH/////////////Ae+54D8Af/+yf4AADn+c6zK1Jgzmuc1z5rn/////////////APaB4B4AP/++f4AAD3O+HHAwN/33++/39/v/////////////AfvP4DwAP/2sf4AAD4B+53vPelv3O+539zv/////////////M/wf5n4AP/6+f4AAD/P/APwA/Of4B/AP+Af/////////////N///5v0AP/7S/4AAD/P/5//P/h//P/5//z//////////////P///5/5Af/8h/4AAD///////////////////////////////P///5/+w/////4AADH+IARH/HH4x/jAAcAB/////////////P/5/5//B//9VV4AADv/dOrv/vv97/2//r/+/////////////P/5/5/+L//+qr4AADcDq3lcCff93A6wBrAG/////////////P/4AB/////+AH4AADp1d4LL9+/76uWqqqqq/////////////P/4AB/48f/+AH4AAD389/73++wL8/ulUqVS/////////////P/4AB/8A//4IB4AADuBd/hv/fPz6B2wBrAG/////////////P/5/5/+Af/7AB4AADv/d/9v/e/97/239rf2/////////////P/5/5v4AP/7PH4AADv8LmDoBcwcw/3AAcAB/////////////P/5/5n0AP/4Rn4AADf/r/3n+alNX/6H+8P9/////////////P/5/4D8AP/+/n4AADewcj3v/cgM4M6//d/+/////////////P/5/4B8AD/8uj4AADj67drv/eqt97nBneDO/////////////P/5/4D9Az/8ED4AADb+7gbv/egN9/bvc/e5/////////////P/5//n9AD/8/j4AADcBc/7v/fa76A7v7ff2///////+B//A/P/5//v9hz/+5n4AADn/fAH3u/jH7/nQHegO///////949++fP/5///+wD//AP4AAD4A///4R/4/8Aff8+/5///////9k89/PP/5////Yf//9/4AAD/////////////gD/AH///////98wd/MP/5////g///5/4AAD/////////////////////////9cwNzMP/5//////////4AADH+IARH/GPxH+MABwAH///////94wd+MP/5////x//+fj4AADv/dOrv/vf7v/b/+v/7///////+989vPP/5////////P34AADcDqnlcCe/7cDrAGsAb////////D9+/fP/5////////wP4AADpld4bL99/3q5aqqqqr///////////M/P/5////q//x574AAD089/73+9gXzy6VSpVL///////////t/P/5//v4rf36554AADvDczLv/efnsPbAGsAb///////////z/P/5//n/Vfz/JH4AADv/cf7v/d/7v/bf2t/b/////////////P/5/4D/A/B/w/4AADndeTHoBdg7pmcABwAH/////////////P/5/4B++fA/gf4AADj/fdvgAdKbvcdMz6Zn/////////////P/5/4D8APB/AP4AADyI/gfx49Abxk97j73H/////////////P/5/5n9hvz+AH4AAD79/7/799Vb79+Mn8ZP/////////////P/5/5v9BP38AD4AAD8D/9/8D9Ab8D/fv+/f/////////////P/5/5/9hv/4Qh4AAD/f/7//v+13/v/gf/A//////////////P/5/5/9gP/5Qh4AAD+/////3/GP/3/9//7//////////////P/5/5/+wf/1gC4AAD/f////v/x//v/+//9//////////////P///5/3A7/+wH4AAD/////////////9//7//////////////P///5/4MH//AP4AAD///////////////////////////////P///5////////4AADH/Ef8cfiP+I/4j/jAAcAB//////////P/+P5/+Pvx9//4AADv/u/++/3f/d/93/2//r/+//////////P/Gf5//AP4B//4AADyB1wJ9/24E7gTuBOwBrAG//////////P/gf5/++P3x//4AAD9+kv37/uX75fvl++qqqqq//////////N/fP5v9/nv8//4AAD7/ff77Avv9+/37/elUqVS//////////M+/n5n4/jH8f/4AAD3/u/98/Pf+9/73/uwBrAG//////////Ae/ngD4/jH8f/4AAD3/u/97/3f+9/73/u39rf2//////////AO5ngB9wHtc//4AADA/eB+wP3A/e/AgfvAAcAB//////////Ae/HgDw/he+f/4AADe/e9+3v3e/e/evfuB+8D9//////////8+3n5n25hf6f/4AADAfeA+wH3Afe+Agfu9+979//////////9/fv5v7vjt8//4AADffe++333ffe++4VuA+8B9////////////mf5/9+n3x//4AADAeeA8wEnASeSA4bO++999////////////2/5/+/vsA//4AAD20fto9PH08ePLgOOAk8BJ////////////5/5//Afr4//4AAD74/3x++P74/H3vsfp4/Tx//////////////5////n8//4AAD8B/4D/Af8B/gPgA/3x/vj//////////////5////////4AAD////////////////4D/wH//////////////5/8ff////4AAD///////////////////////////////////5/+Af////4AAD+H+H/4P/B/g/+H/D//D/B/g////////////5/98f////4AAD8D8D/wH+A/Af8D+B/+B+A/Af///////////5v7/P////4AADPf/f/O853k7z/vP3n/353k7z///////////5nx/H////4AADG45ufIE5AkgTx2I7Hzs5AkgT///////////4Dx/H////4AADgBwoP37+/ffv4AcAPgoe/ffv///////////4B7jP////4AAD374Afv99/u/39++/fwA9/u/3///////////4D6+P////4AADv99+/v99/u/37/d/v799/u/3////////////n9/f////4AADv97/fv99/u/37/d/v3+9/u/3////////////v8Af////4AADvwb/eD99/u/3g/d+CD+wfu/B/////////////8If////4AADv3b+C79g/u/gu/d+67+3fu/d/////////////6cP////4AADrga+6B1u+uvugfd8CDqwPu+B/////////////7dP////4AADvvb+C99g/u/gvTdl7h23puy9/////////////8+f////4AAD2gb2OBb43u9jge+8DgewPfeB////////////////////4AAD7798D33gfffA99/feHd++/vv/////////////j/j////4AAD8H+974Pve/ve+D/g++b/B/wf/////////////3/3////4AAD///AD//gB/wA////+AH//////////////////5A7////4AAD/////////////////////////////////////+AT////4AAD/H/H/8f/j/8f////////////////////////v8AP////4AAD////////////////////////////////////n4AH////4AAD/////////////////////////////////4AAD4AH////4AAD+r+r/6v/V/6v/////////////////////4AABgAP////4AADit9qOK3+1GK3/////////////////////4AADoAP////4AAD9V9V/1X+q/1X/////////////////////5//ngAP////4AAD4D+A/gP/AfgP/////////////////////5//voAP////4AAD399/ff3+/vf3/////////////////////5///gAP////4AADn+z/cf75/uf7/////////////////////5///7AP////4AADf+v/b/93ft37/////////////////////5///9gf////4AADn+z/cDU4/uP7/////////////////////////+A/////4AADf+v/eBUX/t/7////////////////////////////////4AADlty2+Bs5JeSX/////////////////////A///zH/////4AAD77998D4e+/vv////////////////////++f//sz/////4AAD8H+D7/3fB/wf////////////////////9/P//vn/////4AAD4v8X8AP+L/i/////////////////////9/P///P/////4AAD///////////////////////////////99/D/v8D/////4AADmP9j//xnxn/8b/434A/AH4A+AP/////89/5/n4B/////4AADZn6p//mbmb/5V/yr9Dfob9Ddhf/////Ad/j4DwA/////4AADfP/c//z7z7/zv/nf+nf07+ndy//////AN/54BwAP////4AAD+f/8//5/5//z//n//O/53/O+5//////Aeuj4DwAH////4AAD4H/wP/gfgf/A/+B/8D/gf8D/gf/////M/ff5n0AP////4AAD37/v3/fvfv+/f9+/79/fv79/fv/////N/g/5v2AH////4AADv9/f7+/2/39/v7/f3++/33++/3/////P///5/6AP////4AADv8ff64/2/xx/vj/fH+6/3H+4/3/////P///5/9h/////4AADv/vf5X/2/+v/vf/e/+0/2/+3/3/////P/5/5/+D/////4AADv8ff/Y/2/xx/vj/fH+3/3H+4/3/////P/5/5/////x/j4AADv/vf43/2/+v/v77e/+4/2/+3/3/////P/4AB/+7//7/34AAD10ft/YkvSRxdf7/fF139vEl4kv/////P/4AB/9V//3A74AAD77/3pfffvv++/j+/770vf77/ff/////P/4AB/8B//6YX4AAD8H/4G/g/wf/B/fd/8H7A/8H/g//////P/5/5/78//9PP4AAD/////////////gD////////////////P/5/5v3ef/7wn4AAD///////////////////////////////P/5/5n2uf/7/n4AADjx/Hj4+/Hjjx48fx448fAAcAB//////P/5/4D2uf/53H4AADwD/gH8A/gHwD8A/gAcA+//r/+//////P/5/4B7+H/6/n4AAD79/fv78/fvv3+/fj8e/ewBrAG//////P/5/4D7/z/8iP4AADn+6333/e/zf599rn+d9qqqqqq//////P/5//n7/H/+/f4AADW+8r3j/O+1fa96nn+d6mlUqVS/h//A/P/5//v7/z//A/4AAD1e+r3j/O9Xer96v3+96uwBrAG/A9++fP/5///9dH//3/4AAD34O/33HYP3fgg/uD+wfu39rf2/A89/PP/5///++///v/4AAD37u/g2Dbv3fuu/u7+3fvAAcAB/Qwd/MP/5////B///3/4AAD1wOvu27YH3fAg6uDqwPvvwffg/SwNzMP/5//////////4AAD33u/g2Db03Ze4dvh23pvv3ffu/hwd/MP/5///j/j/x/j4AAD7QO9j19YHvvA4HvgewPfvgffA//89tPP/5///3/3/7/34AAD99/fA7+/vf3vh3eHd/e/svfZe//9+/fP/5///uBP/3A74AAD+D/ve8B/w/4fvm++b/h/3gfvA////A/P/5///l8//6cX4AAD///wA///////gB+AH///73/3v//////P/5//v7+f39/P4AAD////////////////////8P/4f//////P/5//n3/Pz7gH4AAD///////////////////////////////P/5/4D3/PB7/n4AAD7v/2/9//u/u/+3/7f/b+AA4AD//////P/5/4B7AHA7/D4AAD1X/pf63/VfVf9L/kn+l9//X/9//////P/5/4D6zHB3/z4AAD0X+Jf6L/RfRf9I/f7+kdgDWAN//////P/5/5n6iHz3sH4AADv79/f39+/u/v7/ef59/tVVVVV//////P/5/5v7zH34+v4AADd97/vv+991937/t/+9/1KpUql//////P/5/5/9gP/2/P4AADa97vvn49616377s/8991gDWAN//////P/5/5/+gf/3AH4AADa97Xvb69616371sf7961v7W/t//////P/5/5/+gf/5/n4AADv8d/ruOx/t/jj/b/7x/uAA4AD//////P///5/+ef/+AP4AADv/t/lv+v/t/9f/cfbv/vf4+/x//////P///5////////4AADv8d/9uOx/t/jj7ff7x/vf/e/+//////P/v/5//f/////4AADv/t/jv+v/t/97/cf3v/vf4+/x//////P/Xf5/+u/////4AAD10e39r6xJekjj+77vxJff/e/+//////P/AP5/+Af////4AAD77/el39++/fffd8Af++/pI/SR//////P+/n5/9/P////4AAD8H/gb4D/B/g/gD////B/33/vv//////N+/n5v7+P////4AAD////////////////////4P/wf//////M8/j5n5+P////4AAD///////////////////////////////Ae5ngD2+v////4AAD+P/gf/H/x/8f+B/8fwAH///////////AO/ngB7/P////4AAD/////////////////v/7///////////Ae2ngD7BP////4AAD///fv///////9+///sAb///////////8/fv5n6+P////4AAD+r/PP9X/V/1f88/1fqqr///////////9/gf5v7/P////4AADit/2/7Ue1HtR/b/tRpVL///////////////5/6+P////4AAD9V+AH6r+q/qv4AfqvsAb///////////////5/9jf////4AAD4D5vZ8B/AfwHm9nwHt/b///////////////5/+A/////4AAD39/fv7++/vv79+/v7wAH///////////////5////////4AADwAeADwA8AeABwAPAD4Af///////////////5//f/////4AADwGeAz2G4SFbarbXAD4Af///////////////5/+t/////4AADwC+AX0E5hlACoAXUr6lf///////////////5/+A/////4AADwG+A32G4AFACoAXAD4Af///////////////5/9+f////4AADwA+AHwA8ANACoAXAD4Af///////////////5v7/P////4AAD4B/AP4B8ANbarbXgH8A////////////////5n5+P////4AADcDrgdcDvA+ABwANwOuB3///////////////4D2+v////4AADgwcGDgwY/HAD4AeDBwYP///////////////4B7/P////4AAD///////////////////////////////////4D3jn////4AADH/Efjj/iP+I/4j/jH4j/jAAf////////////n3/n////4AADv/u/33/3f/d/93/3v93/2//v////////////v7dv////4AADcCe/75A7kDuQO5A7f95A6wBv/////////////7/P////4AADL9/f9+/T79Pv0+/S/7+/Sqqv/////////////6AP////4AAD3+/QN9/v3+/f79/uwL9/ulUv/////////////7cP////4AADv/fPz7/3v/e/97/3Pz7/2wBv/////////////8+f////4AADv/e/97/3v/e/97/2/97/239v////////////////////4AAD3+G/w2BuH+9/h3/uwN2BvAAf////////////////////4AADz9mfs1muD88/B3/urV0AvYG/////////////////////4AADwdODp1Evbg8Hb0AugF1mvQC/////////////////////4AADwBuAN1mvAA8AD3/ugF0AvWa/////////////////////4AADwAOAB4AfAA8AD3/urV4AfQC/////////////////////4AAD4AfAD8A/gB+AH7/ewN8A/gB/////////////////////4AAD8A/gH8A/wD/AP8A/f78A/wD/////////////////////4AAD8P/h/88//D/D////gH88/wD/////////////////////4AAD/////////////////////zz/////////////////////4AAD////////////////////////////////////////////4AAD4+/vj+PHx4+PHHj8ePHj4ADgAP//////////////////4AAD8A/gH/AP4B/APgH4AHgH3/9f/3//////////////////4AAD78/n7+/f37+/f374/H372ANYA3//////////////////4AAD3/fY99/nv89/nvtZ/nvtVVVVVX//////////////////4AADj/OLc99rvtd9rvU9/vvU0qlSqX//////////////////4AADj/ON8d6vvV96vvV4fnvV2ANYA3//////////////////4AAD3Aff94fnB858HD8/vbB82/tb+3//////////////////4AADD/Ef8Xva/7W/797f3a/7YADgAP//////////////////4AADbnFvAT/af7W/z+7QH2f7Z8Hz4P//////////////////4AADu+O3Ax92PO7niA+3+mPO2/7t/3//////////////////4AAD36feB9fnp858u/0x/vp82/zt/n//////////////////4AAD7+/uD+/P358/eP9x3f357nj3PH//////////////////4AAD8B/wH/A/4H/A+O7wA/4H58vz5f//////////////////4AAD////////////+AH/////8/f5+///////////////////4AAD/////////////////////A/+B///////////////////4AAD////////////////////////////////////////////4AADx998fHjx48eOPH48cePgAOAA////////////////////4AAD4B8A/gH4B+AfAPwAOAff/1//f///////////////////4AAD358/ffv379+/v3x+PfvYA1gDf///////////////////4AADv+7Hu/zv87/Pfaz/O+1VVVVVf///////////////////4AADH+Rbm+1vtb7Xep7/e9TSqVKpf///////////////////4AADH+R/m9XvV71fer2Pu9XYA1gDf///////////////////4AADte7/uf7j+38ex9sn2P7b+1v7f///////////////////4AADe/X/1v7f+3/tk+vf1/7gAOAA////////////////////4AADf7Q/1/bfm2ft7+17t+b38fv4////////////////////4AADt+4fsv7J+35Ovdz9sn73/vv/f///////////////////4AAD3x8Pff3397++ft3/Pf32fvs/f///////////////////4AADsA4Bvg74O3B+/5uAHg735Pvyf///////////////////4AADr44+vjb422x9wAh+Hjb7+/39////////////////////4AADn85/Pnj54x58Pw///nj3B/uD////////////////////4AAD///////////////////2x/tj////////////////////4AAD///////////////////x5/jz////////////////////4AAD////////////////////////////////////////////4AAD9//3/u/7v93/t/+3/t/AAcAB////////////////////4AAD677r/Vf1X6r/S/5J/S+//r/+////////////////////4AAD6F0L/Rf0X6L/SP3+/SOwBrAG////////////////////4AAD3+v9+/vv739+/3n+e/2qqqqq////////////////////4AADv+se993fdvu+/7f/u/6lUqVS////////////////////4AADn4tu963etvW++7P/O+6wBrAG////////////////////4AADb6v/d63etvW+9bh+e9a39rf2////////////////////4AADv+v+7/m/5P+8Pz++d/zAAcAB////////////////////4AADsGuewDkA5OAf3yA6YBzn/fP+////////////////////4AADr6sG39l/5P/QHS/8b/znAPOAf///////////////////4AADv+oC5/GfxH83/jG48/jn/vP/f///////////////////4AADr6gC9dPHDhx43H4B+OHj+fH8////////////////////4AAD2NwB+2ftnzb/AP///bPw4/hx////////////////////4AAD4D4D/A/wP4H//////gf5t/zb////////////////////4AAD///////////////////8D/4H////////////////////4AAD////////////////////////////////////////////4AADx998fH33x8ePHjx4x4/Hjx4+AA4AD///////////////4AAD4B8A/gHwD+AfgH4B4B+AB4B9//X/9///////////////4AAD358/ffnz99+/fv379++Px9+9gDWAN///////////////4AADv+7/u/7v+7/O/zv877Wf577VVVVVV///////////////4AADH+T/Ef5P8b7W+1vtb1Pf771NKpUql///////////////4AADH+T/Ef5P8b1e9XvV71ex771dgDWAN///////////////4AADuO7ju/7cdw/cP3vw2Peg7w/dv7W/t///////////////4AADr66+u97X133d83s+0Hegr3zeAA4AD///////////////4AAD399/enLv77++/v390Feh2b+/f9+/7///////////////4AADwB8Aff3gD8A/APwD0OzfAcA/e9+97///////////////4AADwh8IcABhD8AfAHgD74DgA8AfTl+nL///////////////4AADhw4cMCBDh+IPiDBH8AHxx+IPv7/f3///////////////4AADhw4cOHDDh+EPhDCH+OP4/+EOAA8AB///////////////4AADz58+f//nz/GfxnmP/H////GeBA8CB///////////////4AAD////////////////////////Dh+HD///////////////4AAD////////////////////////////////////////////4AAD9//9/3/93+7/2/7f4ADgAP//////////////////////4AAD63/a/rf6r9V/JP0v3/9f/3//////////////////////4AAD6L+i/ov6L9F+/30j2ANYA3//////////////////////4AAD399/ff3397+8/zv91VVVVX//////////////////////4AADv+7/u/7vu33b/9v+0qlSqX//////////////////////4AADn44/OfjvW3rZ/5vu2ANYA3//////////////////////4AADb66+1vrvW3re/7vW2/tb+3//////////////////////4AADv+7/u/7v+3/d/7f+4ADgAP//////////////////////4AADePXj199Z+vvtj7Y+9/37/v//////////////////////4AADf/X/1/9f+v/tjrY6777333//////////////////////4AADt27dunLrt05djxY8b/73/3//////////////////////4AADv+7/u/7353/e/BvwdOX6cv//////////////////////4AADgA4AOADwBwAfMDzA9/37/v/5GRG5WzWVUX1zkbFbn///4AADhw4cOHDxxw4fw/8P8AH4AP/1V1OxW7OxVRF7tVG7v///4AADz58+fPn7758/5/+f8OH4cP/5GRERO7WxMREZFVVVP///4AAD////////////////+fP8+f//f9+/f/e/////v///////4AAD//8D//////wP4H//////////f9+fe7+/////////////4AAD//79//////v3378D////////////////////////////4AADgD3+/gB8Aff7v979///////1MTFxURUVUX1TsbVbH///4AADf93+/f+7/vf7v93+///////1V1d1W1V1VXFdtVFbf///4AADvwX+/v9g/YP7v93+///////xN1M1G9N1VRUxtVW7v///4AADv3X8EH9u/bv6D9B+///////1V1d3W9VxVVVXtVVV3///4AADrgV9131gfYOq79d+///////xMTERUZV1MRE5FVVVH///4AADvvX8EH9vTeHaB9A+////////////////////////////4AAD2gXsfG9ge+B69Nem////////////////////////////4AAD7774ED7+94d2B7A9///////wAAAACAAAAAf/////////4AAD8H97173/D75v7397///////6qqqqqAAAAAf/////////4AAD//+AEAP//4Af8P+H///////wAAAACAAAAAf/////////4AAD///////////////////////wAAAACAAAAAf/////////4AADwP/////+B/gf4H/////////wAAAACAAAAAf/////////4AADv38D/4H9+/fv37+B///////6qqqqqAAAAAYP////////4AADf779/377/e/3v99+///////wAAAACAAAAAcH////////4AADf73+/v97/e/3v97/f//////wAAAACAAAAAeD////////4AADf43+uP97/Y/2P9j/f//////wAAAACAAAAAfBqqqqr///4AADf/X+V/9r/X/1/9f/f//////6qqqqqAAAAAfgqqqqr///4AADf43/2PtT/Y/2P9j/f//////wAAAACAAAAAf/////////4AADf/X+Pv9f/e+1/9f/f//////wAAAACAAAAAf/////////4AADro7f2P7j/e/2JLiS///////wAAAACAAAAAXYyvNspr//4AAD3396V93f64/v3399///////6qqqqqAAAAAVXtu1rWr//4AAD4P+BuAPS933f4P+D///////wAAAACAAAAAVQhv1oXn//4AAD///////sD4A////////////wAAAACAAAAAVW9vNvWr//4AAD//////////////////////////////////1Zxu8MZv//4AAD/HH/8ce49x/jx/j4AD/////1VVVVWAAAAASf/u3//v//4AADjPmOM+Y8x5jAAxn3/9/////6qqqqrVVVVVf///P//v//4AADwPgfA+B8D4HH44H2AN/////wAAAACAAAAAf/////////4AADv3fu/d+7937P8371VV/////1VVVVWqqqqqwdHZ27fH//4AADf6/1/r/X+v9P8v90ql/////1VVVVWAAAAAX9XKrbe7//4AADf6/1/r/X+v9v9v92AN/////6qqqqrVVVVVf9jXrde///4AADc651zofQ+v9v9g82/t/////wAAAACAAAAAf93fw9e///4AADfqp1/r/X+sNsNq/YAD/////1VVVVWqqqqqwdDf74W///4AADb6/VMrvXOoFoF+89zv/////1VVVVWAAAAAf93fgt2///4AADv3fu/d+79oFoF8l9/v/////6qqqqrVVVVVfX//7du///4AADzPmfM+Z8zr1r1599Mv/////wAAAACAAAAAf/////////4AAD7f5/z/n/Pv9v9z7+/f/////1VVVVWqqqqq//4+f/93P/4AAD8////////1r1r33/M//////1VVVVWAAAAAWiuvu2V33/4AAD/////////4H4H4P/z//////6qqqqrVVVVVWqovO1sRn/4AAD///////////////////////wAAAACAAAAAWqquu0NVX/4AAD///////////////////////1VVVVWqqqqqwqqmuHtVX/4AAD7//7+/+8959/+3/b//fAAf////////////2qIqu2MRX/4AAD13919d9a61679L8k/uu//v/1VVVVWqqqqq2///+3////4AAD0L6F9C8G4N6F9D7/fQuwBv///////VVVVVW///+3////4AADv93+7/d+793+79z/O/mqqv/6qqqqrVVVVVf/////////4AADv93+7/b/X+3+36v/2/2lUv/1VVVVWqqqqq7fHb4Ofs7P4AADP4j+T+L5Xyn8X2n/kfywBv/1VVVVWqqqqq1vXb7+zu5X4AADud3O7nYfQ+2Gwe7DeD239v///////VVVVVVtjr//7u6/4AADv93O7/b/X+0C1e6Ber3AAf/6qqqqrVVVVVYd3r//Bu7/4AADtt166ZbvXO0C/e6Bf73ud//1VVVVWqqqqq9+7C4P3ob/4AAD37799+9+790C+S6BfyXv9//1VVVVWqqqqqwUXu//Du7/4AAD4H8D+B+B8D168+69fn3pl////////VVVVVdu/t/rv/v/4AAD//////////3+597/fPv37//6qqqqrVVVVVf//////+//4AAD//////////61779a/ff4H//1VVVVWqqqqq//////////4AAD//////////8D8H+B/g/////1VVVVWqqqqq/////4AAAAIAAD/////////////////////////////VVVVVY3Mb33////wAADwP////4H//4HwP4H///////6qqqqrVVVVVXWrr33////wAADv3////37//37v337wP/////1VVVVWqqqqq3Wrr33////wAADf7ADgBv9gBv9f7v9v3////////////////3Vrox3////wAADf6/9f+v9f+v9f7v9f7////////////////3Vrr34AAAAIAADc7c7udh9h9v9B5udc7/////6qqqqrVVVVVYzsYQ3/+//wAADfrU7v1v9v9sNV+v9f7///////////////////////+//4AADb7frt9u9udoF95plTL//////////+qqqqq7dnbpRpK6qIAADv3v3373737oF5L37v3////////////////1sqttWtaKq4AADzPzP5n5n5nr1z75nzP/////6qqqqrVVVVVVtettWpaqqIAAD7f8/+f+f+fv9n39v7f////////////////4d/D727erqoAAD8/////////1rvv+f8///wPA/////+qqqqq99/v32pKKiIAAD//////////4Hwf//////wvQ///////////wV+C92//7/4AAD////////////////////5fl6qqqqrVVVVVdt/tzx//7/4AADwP//A+B8D4HwPgf/////8/z/////////////////////4AADv3ge/d+7937v3fvA////t/2/////+qqqqq5jf+x4/j2f4AADf7ft/r/X+v9f6/2/f///f1/f//////////2vbe13f93f4AADf6/1/r/X+sNf6/1/v///vu+6qqqqrVVVVVevZtd3/93f4AADc651zofQ+oFB651zv////1////////////5jY1b3/93f4AADf651zr/X+oFV6/1/v/////////////////3vZtX3+D0P4AADbavVervXOoF96mVMv/////ywAAAACAAAAAWvbdV3//3f4AADv3fu/d+79r15Lfu/f/////lwAAAACAAAAAZiP9R3////4AADwPgfA+B8Dv9z7gfA//////ywAAAACAAAAAf/////////4AAD/////////1rn3/////////5QAAAACAAAAAZ0I9jnuc9T4AAD/////////4Hvv/////////ywAAAACAAAAAW1/Q9btvVT4AAD///////////wf/////////lwAAAACAAAAAW2/V9btvcj4AAD//////////////////////ywAAAACAAAAAW3e1jH2cf/4AADhgGGDh4cA//+BgHDwPD4cA5QAAAACAB4AAW3vVve1rdz4AADA0sDhMzNm//9+p29v2l0t+ywAAAACABAAAWlvVve1rUD4AADM4fD1MzOB//9mvV+h1m0sYlwAEAACAAgAAZ2Y5hmGc9z4AADA/8DxAgH///9+r2G91mv1+ywABcACAAQAAf///////+H4AADS/8zjSkn///9e3t+9V6rWB5QAAQACAAIAAR0R0R0Rx//4AADh/+HDhoX///964dm71enn/ywAAIACAB4AAV193V1dV8/4AAD////P/wP///+9/+93u9v3/lwAAEACAAAAAV0RER0Rx8H4AAD////////////D//DwfDwP/ywAAcACAAAAAVndV3VVd874AAD//////////////////////5QAAAACAAAAAR0RURER98H4AAD////////////////////////////////////////////4AAD////////////////////////////////////////////4AADgGAGAcA4AdgH4BwA4BwDgB2AfwD4B/AP//AA///v////4AADzPmfM+N8C/xu8DgAcD5HyD/Q76X8z/pd//v94f/Xu/7/4AADnHPOcdg7DfsH4BoAYBxDsN+TfxjzM7GP//sN3n/v7/i/4AADfi51+LCWYPYTwAoAQAiNAQ9iPpljMemXs/v9v5//1/c/4AADc651RobQYPAL0AoAXMsRAQ8APGYszeRHyPsNv+//72+v4AADc6P0iIYSANzP2A0A//gRMM2zfGYszeMn+D370Pf/uo8X4AADP7Hv/4AbDfzOyAyA//gNiB+/bZmjMXft+D4H73v//uD34AADj3GP/9G9C50v7B5x0y2DyDmtfplzM/Zv85+f07v//t934AADjHudmdk+B64Z5B8DyAxD4HrenmZ0y/Zv8B+f093//rO34AAD3Pw8Zuh/n7f28z//7B5H//lhL2b4xzWt9t+f3l19/z+P4AAD4f/+PfD//9f1+H//5B8P//1/Xxj8D1va+DwD7l2r/66/4AAD///+Mf///8Ph////8z////w+H5n//ww4+7wD573v77u/4AAD////c////+Nzf///+H////43N8P//4fw/X+f2FuT19d/4AAD////h////////////////////////9e1/v+f3+fv7+D/4AAD/////////////////////////////+37////7/+r//H/4AAD//////////////////////////////////////99////4AAD////////////////////////////////////////////4AADg4ODg4HAgYHA4OHxz9+/cAhi7/76t/D339/eAT/mIpsf4AADAQEBAbXatUKhUd7tr8+fN+tjP/e4PRfnz4+vS9d2rq7v4AADAQEBAbXaoUKg14BBDgQIEAhrPnzxH3vBBwd3e5e2tq8P4AADfbvX/7Xan367z4BDDly9cAhj+HtQH72BAgL7A1fCtp/n4AADfbvv/3qw/73X/97rrp0/9+uz+Ct2397BBoL7z1P2ur+P4AADu8f//3qv/9vv/97r2B+/+Sxz/DzwHxDnzoLaAVUCIr9v4AADx////4Hf/+f//+Hz/P///h5//Pe4P//33ycm/f/3//+P4AAD/////////////////v///z5///3/////////////////4AAD////////////////////////////////////////////4AAD////////////////////////////////////////////4AAA="
+            }
+
+            desenhar(ctx, imagem, posX, posY) {
+                ctx.drawImage(imagem[5], posX, posY);
+            }
+
+            destructor(){
+                for (const key in Imagens) {
+                    for (const value in Imagens[key]){
+                        Imagens[key][value][5].close();
+                    }
+                }
+            }
+        }
+
+        class Animacoes { // Cada tamagotchi tem um conjunto de imagens, movimentos e interface
+            // A animação e movimento ocorrem a cada 600ms, mas não dá para garantir esse tempo no browser
+            constructor(imagens) {
+                this.imagens = imagens;
+                this.resetAnimacao();
+                this.animacao = null;
+
+                // Animação -> Tamagotchi.Evento: [ [ quadroIni, quadroFim, Imagem, posX, posY, [dX] ] ]
+                this.lista = {
+                    "Idle.Egg": [
+                        [0, 1, Imagens.OvoP1A[0], 11, 2, []],
+                        [2, 3, Imagens.OvoP1A[1], 10, 3, []],
+                    ],
+                    "Evoluindo.Egg": [
+                        [0, 0, Imagens.OvoP1A[1], 10, 3, []],
+                        [1, 1, Imagens.OvoP1A[1], 9, 3, []],
+                        [2, 2, Imagens.OvoP1A[1], 10, 3, []],
+                        [3, 3, Imagens.OvoP1A[1], 9, 3, []],
+                        [4, 4, Imagens.OvoP1A[1], 10, 3, []],
+                        [5, 6, Imagens.OvoP1A[1], 9, 3, []],
+                        [7, 9, Imagens.OvoP1A[2], 8, 0, []],
+                        //[10, 10, Imagens.BabitchiP1Idle[0], 13, 9, []],
+                    ],
+                    "Idle.Babitchi": [ // e3 e3 d4 e2 d3 d3 d3 e3 e2 = -3 -3 +4 -2 +3 +3 +3 -3 -2
+                        [0, 1, Imagens.BabitchiP1Idle[0], 13, 9, [-3, +3, -2, -2, -3, +4, +3, -3, +3]],
+                        [2, 3, Imagens.BabitchiP1Idle[0], 13, 9, [-3, +3, -3, +3, -2, -2, -3, +4, +3]],
+                        [4, 5, Imagens.BabitchiP1Idle[1], 12, 13, [+4, +3, -3, +3, -3, +3, -2, -2, -3]],
+                        [6, 7, Imagens.BabitchiP1Idle[1], 12, 13, [-2, -3, +4, +3, -3, +3, -3, +3, -2]],
+                    ],
+                    "AlimentarRefeicao": [
+                        [0, 0, Imagens.Seta[1], 1, 0, []],
+                        [0, 0, Imagens.Meal[0], 8, 1, []],
+                        [0, 0, Imagens.Snack[0], 8, 8, []],
+                    ],
+                    "AlimentarLanche": [
+                        [0, 0, Imagens.Seta[1], 1, 9, []],
+                        [0, 0, Imagens.Meal[0], 8, 1, []],
+                        [0, 0, Imagens.Snack[0], 8, 8, []],
+                    ],
+                    "ComendoRefeicao.Babitchi": [
+                        [0, 1, Imagens.Pao[0], 4, 0, []], [0, 1, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [2, 3, Imagens.Pao[0], 4, 9, []], [2, 3, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [4, 5, Imagens.Pao[1], 4, 9, []], [4, 5, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [6, 7, Imagens.Pao[1], 4, 9, []], [6, 7, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [8, 9, Imagens.Pao[2], 5, 9, []], [8, 9, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [10, 11, Imagens.Pao[2], 5, 9, []], [10, 11, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [12, 13, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [14, 15, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [16, 17, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                    ],
+                    "NegandoRefeicao.Babitchi": [
+                        [0, 1, Imagens.BabitchiP1Negando[0], 13, 9, []],
+                        [2, 3, Imagens.BabitchiP1Negando[1], 13, 9, []],
+                    ],
+                    "ComendoLanche.Babitchi": [
+                        [0, 1, Imagens.Bala[0], 4, 0, []], [0, 1, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [2, 3, Imagens.Bala[0], 4, 8, []], [2, 3, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [4, 5, Imagens.Bala[1], 6, 10, []], [4, 5, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [6, 7, Imagens.Bala[1], 6, 10, []], [6, 7, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [8, 9, Imagens.Bala[2], 6, 12, []], [8, 9, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [10, 11, Imagens.Bala[2], 6, 12, []], [10, 11, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [12, 13, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [14, 15, Imagens.BabitchiP1Comendo[0], 13, 8, []],
+                        [16, 17, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                    ],
+                    "ApagarLuz": [
+                        [0, 0, Imagens.Seta[1], 1, 9, []],
+                        [0, 0, Imagens.On[0], 8, 1, []],
+                        [0, 0, Imagens.Off[0], 8, 8, []],
+                    ],
+                    "AcenderLuz": [
+                        [0, 0, Imagens.Seta[1], 1, 0, []],
+                        [0, 0, Imagens.On[0], 8, 1, []],
+                        [0, 0, Imagens.Off[0], 8, 8, []],
+                    ],
+                    "DormindoLuzAcesa.Babitchi": [
+                        [0, 3, Imagens.BabitchiP1Doente[0], 13, 13, []],
+                        [0, 1, Imagens.Dormindo[0], 24, 0, []],
+                        [2, 3, Imagens.Dormindo[1], 25, 2, []],
+                        [4, 5, Imagens.BabitchiP1Doente[0], 12, 13, []],
+                        [4, 5, Imagens.Dormindo[0], 24, 0, []],
+                        [6, 7, Imagens.BabitchiP1Doente[0], 13, 13, []],
+                        [6, 7, Imagens.Dormindo[1], 25, 2, []],
+                    ],
+                    "DormindoLuzApagada": [
+                        [0, 1, Imagens.DormindoLuzApagada[0], 0, 0, []],
+                        [2, 3, Imagens.DormindoLuzApagada[1], 0, 0, []],
+                    ],
+                    "AcordadoLuzApagada": [
+                        [0, 0, Imagens.Evoluindo[7], 0, 0, []]
+                    ],
+                    "Brincar.Babitchi": [
+                        [0, 1, Imagens.Conteiner[0], 0, 9, []],
+                        [0, 1, Imagens.Coracao[0], 8, 0, []],
+                        [0, 1, Imagens.Conteiner[0], 15, 9, []],
+                        [0, 1, Imagens.Coracao[0], 22, 0, []],
+
+                        [2, 2, Imagens.Conteiner[0], 3, 9, []],
+                        [2, 2, Imagens.Coracao[0], 11, 0, []],
+                        [2, 2, Imagens.Conteiner[0], 18, 9, []],
+                        [2, 2, Imagens.Coracao[0], 25, 0, []],
+
+                        [3, 3, Imagens.Conteiner[0], 6, 9, []],
+                        [3, 3, Imagens.Coracao[0], 14, 0, []],
+                        [3, 3, Imagens.Conteiner[0], 21, 9, []],
+                        [3, 3, Imagens.Coracao[0], 28, 0, []],
+
+                        [4, 4, Imagens.Conteiner[0], 9, 9, []],
+                        [4, 4, Imagens.Coracao[0], 17, 0, []],
+                        [4, 4, Imagens.Conteiner[0], 24, 9, []],
+                        [4, 4, Imagens.Coracao[0], 31, 0, []],
+
+                        [5, 5, Imagens.Conteiner[0], 12, 9, []],
+                        [5, 5, Imagens.Coracao[0], 20, 0, []],
+                        [5, 5, Imagens.Conteiner[0], 27, 9, []],
+
+                        [6, 6, Imagens.Conteiner[0], 15, 9, []],
+                        [6, 6, Imagens.Coracao[0], 23, 0, []],
+                        [6, 6, Imagens.Conteiner[0], 30, 9, []],
+
+                        [7, 7, Imagens.Conteiner[0], 18, 9, []],
+                        [7, 7, Imagens.Coracao[0], 26, 0, []],
+                        [7, 7, Imagens.BabitchiP1Idle[0], -2, 9, []],
+
+                        [8, 8, Imagens.Conteiner[0], 21, 9, []],
+                        [8, 8, Imagens.Coracao[0], 29, 0, []],
+                        [8, 8, Imagens.BabitchiP1Idle[0], 1, 9, []],
+
+                        [9, 9, Imagens.Conteiner[0], 24, 9, []],
+                        [9, 9, Imagens.Coracao[0], 32, 0, []],
+                        [9, 9, Imagens.BabitchiP1Idle[0], 4, 9, []],
+
+                        [10, 10, Imagens.Conteiner[0], 27, 9, []],
+                        [10, 10, Imagens.BabitchiP1Idle[0], 7, 9, []],
+
+                        [11, 11, Imagens.Conteiner[0], 30, 9, []],
+                        [11, 11, Imagens.BabitchiP1Idle[0], 10, 9, []],
+
+                        //[12, 12, Imagens.BabitchiP1Idle[0], 13, 9, []],
+                    ],
+                    "BrincarIdle.Babitchi":[
+                        [0, 1, Imagens.BabitchiP1Idle[0], 13, 9, []],
+                        [2, 3, Imagens.BabitchiP1Feliz[0], 13, 8, []],
+                    ],
+                    "BrincarDD.Babitchi": [
+                        [0, 6, Imagens.Seta[1], 25, 8, []],
+                        [0, 6, Imagens.BabitchiP1Negando[1], 13, 9, []],
+                    ],
+                    "BrincarEE.Babitchi": [
+                        [0, 6, Imagens.Seta[0], 1, 8, []],
+                        [0, 6, Imagens.BabitchiP1Negando[0], 13, 9, []],
+                    ],
+                    "BrincarDE.Babitchi": [
+                        [0, 6, Imagens.Seta[1], 25, 8, []],
+                        [0, 6, Imagens.BabitchiP1Negando[0], 13, 9, []],
+                    ],
+                    "BrincarED.Babitchi": [
+                        [0, 6, Imagens.Seta[0], 1, 8, []],
+                        [0, 6, Imagens.BabitchiP1Negando[1], 13, 9, []],
+                    ],
+                    "BrincarVenceu.Babitchi": [
+                        [0, 1, Imagens.BabitchiP1Feliz[0], 13, 8, []],
+                        [0, 1, Imagens.Feliz[0], 20, 8, []],
+                        [2, 3, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [4, 5, Imagens.BabitchiP1Feliz[0], 13, 8, []],
+                        [4, 5, Imagens.Feliz[0], 20, 8, []],
+                        [6, 7, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                    ],
+                    "BrincarPerdeu.Babitchi": [
+                        [0, 1, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [0, 1, Imagens.Aborrecido[0], 22, 7, []],
+                        [2, 3, Imagens.BabitchiP1Aborrecido[0], 12, 8, []],
+                        [2, 3, Imagens.Aborrecido[1], 21, 8, []],
+                        [4, 5, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [4, 5, Imagens.Aborrecido[0], 22, 7, []],
+                        [6, 7, Imagens.BabitchiP1Aborrecido[0], 12, 8, []],
+                        [6, 7, Imagens.Aborrecido[1], 21, 8, []],
+                    ],
+                    "BrincarPlacar": [
+                        [0, 0, Imagens.BabitchiP1Idle[0], 1, 1, []],
+                        [0, 0, Imagens.Vs[0], 9, 9, []],
+                        [0, 0, Imagens.Conteiner[0], 17, 1, []],
+                        [0, 0, (p0) => { return Imagens.Fonte4x7[p0]; }, 2, 9, []],
+                        [0, 0, (p1) => { return Imagens.Fonte4x7[p1]; }, 19, 9, []],
+                    ],
+                    "DoenteIdle.Babitchi": [
+                        [0, 0, Imagens.BabitchiP1Doente[0], 12, 13, []],
+                        [0, 0, Imagens.Doenca[0], 25, 0, []],
+                    ],
+                    "Doenca": [
+                        [0, 0, Imagens.Doenca[0], 25, 0, []],
+                    ],
+                    "Medicar.Babitchi": [
+                        [0, 1, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [0, 1, Imagens.Aborrecido[0], 22, 7, []],
+                        [2, 3, Imagens.BabitchiP1Aborrecido[0], 12, 8, []],
+                        [2, 3, Imagens.Aborrecido[1], 21, 8, []],
+                        [4, 5, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [4, 5, Imagens.Aborrecido[0], 22, 7, []],
+                        [6, 7, Imagens.BabitchiP1Aborrecido[0], 12, 8, []],
+                        [6, 7, Imagens.Aborrecido[1], 21, 8, []],
+                    ],
+                    "Sujando.Babitchi": [ // 45:08 Agachado tremendo depois pula feliz
+                        [ 0,  0, Imagens.BabitchiP1Doente[0], 13, 13, []],
+                        [ 1,  1, Imagens.BabitchiP1Doente[0], 14, 13, []],
+                        [ 2,  2, Imagens.BabitchiP1Doente[0], 13, 13, []],
+                        [ 3,  3, Imagens.BabitchiP1Doente[0], 14, 13, []],
+                        [ 4,  4, Imagens.BabitchiP1Doente[0], 13, 13, []],
+                        [ 5, 20, Imagens.BabitchiP1Feliz[0], 10, 8, []],
+                        [ 5,  6, Imagens.Fezes[1], 17, 8, []],
+                        [ 7,  8, Imagens.Fezes[0], 17, 8, []],
+                        [ 9, 10, Imagens.Fezes[1], 17, 8, []],
+                        [11, 12, Imagens.Fezes[0], 17, 8, []],
+                        [13, 14, Imagens.Fezes[1], 17, 8, []],
+                        [15, 16, Imagens.Fezes[0], 17, 8, []],
+                        [17, 18, Imagens.Fezes[1], 17, 8, []],
+                        [19, 20, Imagens.Fezes[0], 17, 8, []],
+                    ],
+                    "Sujo": [
+                        [0, 1, Imagens.Fezes[0], 23, 8, []],
+                        [2, 3, Imagens.Fezes[1], 23, 8, []],
+                    ],
+                    "Banhar": [
+                        [ 0,  0, "Scroll", 0, 0, [-3]], [0, 0, Imagens.Banho[0], 33, 0, []],
+                        [ 1,  1, "Scroll", 0, 0, [-3]], [1, 1, Imagens.Banho[0], 33, 0, []],
+                        [ 2,  2, "Scroll", 0, 0, [-3]], [2, 2, Imagens.Banho[0], 33, 0, []],
+                        [ 3,  3, "Scroll", 0, 0, [-3]], [3, 3, Imagens.Banho[0], 33, 0, []],
+                        [ 4,  4, "Scroll", 0, 0, [-3]], [4, 4, Imagens.Banho[0], 33, 0, []],
+                        [ 5,  5, "Scroll", 0, 0, [-3]], [5, 5, Imagens.Banho[0], 33, 0, []],
+                        [ 6,  6, "Scroll", 0, 0, [-3]], [6, 6, Imagens.Banho[0], 33, 0, []],
+                        [ 7,  7, "Scroll", 0, 0, [-3]], [7, 7, Imagens.Banho[0], 33, 0, []],
+                        [ 8,  8, "Scroll", 0, 0, [-3]], [8, 8, Imagens.Banho[0], 33, 0, []],
+                        [ 9,  9, "Scroll", 0, 0, [-3]], [9, 9, Imagens.Banho[0], 33, 0, []],
+                        [10, 10, "Scroll", 0, 0, [-3]], [10, 10, Imagens.Banho[0], 33, 0, []],
+                        [11, 11, "Scroll", 0, 0, [-3]], [11, 11, Imagens.Banho[0], 33, 0, []],
+                    ],
+                    "Status1": [
+                        [0, 0, Imagens.BabitchiP1Idle[0], 2, 1, []],
+                        [0, 0, Imagens.Balanca[0], 1, 9, []],
+                        [0, 0, (p0) => { return p0 !== undefined ? Imagens.Fonte4x7[p0] : Imagens.Vazio[0]; }, 14, 1, []],
+                        [0, 0, (p1) => { return Imagens.Fonte4x7[p1]; }, 19, 1, []],
+                        [0, 0, Imagens.Yr[0], 25, 2, []],
+                        [0, 0, (p2) => { return p2 !== undefined ? Imagens.Fonte4x7[p2] : Imagens.Vazio[0]; }, 14, 9, []],
+                        [0, 0, (p3) => { return Imagens.Fonte4x7[p3]; }, 19, 9, []],
+                        [0, 0, Imagens.Peso[0], 25, 10, []],
+                    ],
+                    "Status2": [
+                        [0, 0, Imagens.Discipline[0], 1, 0, []],
+                        [0, 0, Imagens.Barra[0], 1, 8, []],
+                    ],
+                    "Status3": [
+                        [0, 0, Imagens.Hungry[0], 0, 0, []],
+                        [0, 0, (p0) => { return p0 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 0, 9, []],
+                        [0, 0, (p1) => { return p1 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 8, 9, []],
+                        [0, 0, (p2) => { return p2 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 16, 9, []],
+                        [0, 0, (p3) => { return p3 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 24, 9, []],
+                    ],
+                    "Status4": [
+                        [0, 0, Imagens.Happy[0], 0, 0, []],
+                        [0, 0, (p0) => { return p0 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 0, 9, []],
+                        [0, 0, (p1) => { return p1 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 8, 9, []],
+                        [0, 0, (p2) => { return p2 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 16, 9, []],
+                        [0, 0, (p3) => { return p3 ? Imagens.Coracao[0] : Imagens.Conteiner[0]; }, 24, 9, []],
+                    ],
+                    "Disciplinar.Babitchi": [
+                        [0, 1, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [0, 1, Imagens.Aborrecido[0], 22, 7, []],
+                        [2, 3, Imagens.BabitchiP1Aborrecido[0], 12, 8, []],
+                        [2, 3, Imagens.Aborrecido[1], 21, 8, []],
+                        [4, 5, Imagens.BabitchiP1Idle[1], 12, 13, []],
+                        [4, 5, Imagens.Aborrecido[0], 22, 7, []],
+                        [6, 7, Imagens.BabitchiP1Aborrecido[0], 12, 8, []],
+                        [6, 7, Imagens.Aborrecido[1], 21, 8, []],
+                    ],
+                    "Evoluindo": [
+                        [0, 0, "Fixo", 0, 0, []], [0, 0, Imagens.Evoluindo[0], 0, 0, []],
+                        [1, 1, "Fixo", 0, 0, []], [1, 1, Imagens.Evoluindo[1], 0, 0, []],
+                        [2, 2, "Fixo", 0, 0, []], [2, 2, Imagens.Evoluindo[2], 0, 0, []],
+                        [3, 3, "Fixo", 0, 0, []], [3, 3, Imagens.Evoluindo[3], 0, 0, []],
+                        [4, 4, "Fixo", 0, 0, []], [4, 4, Imagens.Evoluindo[4], 0, 0, []],
+                        [5, 5, "Fixo", 0, 0, []], [5, 5, Imagens.Evoluindo[5], 0, 0, []],
+                        [6, 6, "Fixo", 0, 0, []], [6, 6, Imagens.Evoluindo[6], 0, 0, []],
+                        [7, 7, "Fixo", 0, 0, []], [7, 7, Imagens.Evoluindo[7], 0, 0, []],
+                    ],
+                    "Relogio": [
+                        [0, 0, (p0) => { return Imagens.Fonte3x5[p0]; }, 0, 0, []],
+                        [0, 0, (p1) => { return Imagens.Fonte3x5[p1]; }, 4, 0, []],
+                        [0, 0, Imagens.Fonte3x5[40], 8, 0, []],
+                        [0, 0, (p2) => { return Imagens.Fonte3x5[p2]; }, 12, 0, []],
+                        [0, 0, (p3) => { return Imagens.Fonte3x5[p3]; }, 16, 0, []],
+                        [0, 0, Imagens.Fonte3x5[10], 20, 0, []],
+                        [0, 0, (p4) => { return Imagens.Fonte3x5[p4]; }, 22, 0, []],
+                        [0, 0, (p5) => { return Imagens.Fonte3x5[p5]; }, 26, 0, []],
+                        [0, 0, (p6) => { return Imagens.Segundos[p6]; }, 30, 0, []],
+                        [0, 0, (p7) => { return Imagens.Segundos[p7]; }, 31, 0, []],
+                    ],
+                };
+            }
+
+            resetAnimacao(){
+                this.quadro = 0;
+                this.posX = 0;
+                this.dX = 0;
+            }
+
+            animar(tipo, status) { // Preciso saber qual a classe, status e fator de atualização do Pet
+                if (this.lista[status + "." + tipo] !== undefined) {
+                    if (this.animacao != this.lista[status + "." + tipo]){
+                        this.animacao = this.lista[status + "." + tipo];
+                        this.resetAnimacao();
+                    }
+                } else {
+                    if (this.lista[status] !== undefined && this.animacao != this.lista[status]){
+                        this.animacao = this.lista[status];
+                        this.resetAnimacao();
+                    }
+                }
+                for (var quadro in this.animacao) {
+                    if (this.quadro >= this.animacao[quadro][0] && this.quadro <= this.animacao[quadro][1]) {
+                        if (this.animacao[quadro][5].length > 0 && this.quadro == this.animacao[quadro][1]) {
+                            this.posX += this.animacao[quadro][5][this.dX];
+                        }
+                    }
+                }
+                if (this.quadro >= this.animacao[this.animacao.length - 1][1]) {
+                    if (this.dX++ >= this.animacao[quadro][5].length - 1) {
+                        this.dX = 0;
+                    }
+                    this.quadro = 0;
+                    return true; // Fim da animação
+                } else {
+                    this.quadro++;
+                }
+            }
+
+            desenhar(ctx, quadroAnterior, funcao, ...params) {
+                var animacao = this.lista.Relogio;
+                var posX = 0;
+                var tquadro = 0;
+
+                if (funcao == "quadro"){
+                    animacao = this.animacao;
+                    posX = this.posX;
+                    tquadro = this.quadro;
+                }
+                if (animacao != null) {
+                    var width = ctx.canvas.width;
+                    var height = ctx.canvas.height;
+                    ctx.clearRect(0, 0, width, height);
+                    var i = 0;
+                    for (var quadro in animacao) {
+                        if (tquadro >= animacao[quadro][0] && tquadro <= animacao[quadro][1]) {
+                            if (animacao[quadro][2] == "Scroll") {
+                                ctx.drawImage(quadroAnterior, -(animacao[quadro][5][0]), 0, width + posX, height, animacao[quadro][3], animacao[quadro][4], width + posX, height);
+                            } else if (animacao[quadro][2] == "Fixo") {
+                                ctx.drawImage(quadroAnterior, 0, 0, width, height, animacao[quadro][3], animacao[quadro][4], width, height);
+                            } else if (typeof animacao[quadro][2] === 'function') {
+                                this.imagens.desenhar(ctx, animacao[quadro][2].call(this, params[i++]), animacao[quadro][3] + posX, animacao[quadro][4]);
+                            } else {
+                                this.imagens.desenhar(ctx, animacao[quadro][2], animacao[quadro][3] + posX, animacao[quadro][4]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // Classes:
+        // Controlador - pode ser teclas do teclado ou um padrão específico
+        // GerenciadorImagens - responsável por desenhar a imagem selecionada
+        // tamagotchi
+        // efeitos
+        // jogo
+        // barra
+
+        /*
+        const teclado = {
+            horizontal: 0,
+            vertical: 0
+        };
+
+        window.addEventListener("keydown", (event) => {
+            if (event.keycode == 37) { // esquerda
+                teclado.horizontal += 1;
+            } else if (event.keycode == 39) { // direita
+                teclado.horizontal += -1;
+            }
+            if (event.keycode == 38) { // cima
+                //teclado.vertical += 1;
+                //teclado.horizontal += 4;
+            } else if (event.keycode == 40) { // baixo
+                //teclado.vertical += -1;
+                //teclado.horizontal -= 4;
+            }
+        });*/
+
+        /*window.addEventListener("keyup", (event)=>{
+            if(event.keyCode == 37){ // esquerda
+                teclado.horizontal += -1;
+            } else if (event.keyCode == 39){ // direita
+                teclado.horizontal += 1;
+            }
+            if (event.keyCode == 38){ // cima
+                teclado.vertical += -1;
+            } else if (event.keyCode == 40){ // baixo
+                teclado.vertical += 1;
+            }
+        });*/
+
+        class GerenciadorInterface {
+            // Esquerda
+            // Direita
+            // Cima
+            // Baixo
+            // Ação
+
+            static funcoes = [
+                "Alimentar", //AlimentarRefeição, AlimentarLanche
+                "Luz", //AcenderLuz, ApagarLuz
+                "Brincar", //BrincarEsquerda, BrincarDireita
+                "Medicar",
+                "Banhar",
+                "Status",
+                "Disciplinar"
+            ];
+            /*
+            constructor(teclado, funcoes, gerenciadorImagens) {
+                this.teclado = teclado;
+                this.funcoes = funcoes;
+            }
+            */
+        }
+
+
+        class Pet {
+            static Idle = "Idle";
+            static Evoluindo = "Evoluindo"; //Nascendo
+
+            constructor(imagens) {
+                if (this.constructor == Pet) {
+                    throw new Error("Abstract classes can't be instantiated.");
+                }
+
+                this.imgDecorrido = null;
+                this.imgQquadro = null;
+                this.imgNome = null;
+                this.animacoes = new Animacoes(imagens);
+                this.visivel = false;
+
+                this.timer = 0;
+                this.segundos = 0;
+                this.minutos = 0;
+                this.horas = 0;
+                this.dias = 0;
+
+                this.efeitos = {}; // Quantidade de fezes e doença que bloqueia a área útil de movimento (desloca área de movimento)
+                this.farto = 0;
+                this.alegre = 0;
+                this.disciplinado = 0;
+                this.qtdSujo = 0;
+                this.qtdDoente = 0;
+
+                this.tentativa = 0;
+                this.placar = 0;
+            }
+
+            setStatus(status) {
+                this.animacoes.resetAnimacao();
+                this.status = status;
+            }
+
+            atualizaTimer() {
+                this.timer++;
+                if (++this.segundos == 60){
+                    this.segundos = 0;
+                    if (++this.minutos == 60){
+                        this.minutos = 0;
+                        if (++this.horas == 24){
+                            this.horas = 0;
+                            this.dias++;
+                        }
+                    }
+                }
+            }
+
+            atualizaQuadro() {
+                let finalizado = this.animacoes.animar(this.constructor.name, this.status);
+                return finalizado;
+            }
+
+            desenhar(ctx, funcao){
+                if (funcao == "quadro"){
+                    switch(this.status){
+                        case Babitchi.BrincarPlacar:
+                            this.animacoes.desenhar(ctx, this.imgQuadro, funcao,this.placar, 5 - this.placar);
+                            break;
+                        case Babitchi.Status1:
+                            this.animacoes.desenhar(ctx, this.imgQuadro, funcao, 1, 2, 3, 4);
+                            //this.animacoes.desenhar(ctx, this.imgQuadro, undefined, 2, undefined, 4);
+                            break;
+                        case Babitchi.status2:
+                            this.animacoes.desenhar(ctx, this.imgQuadro, funcao);
+                            break;
+                        case Babitchi.Status3:
+                            var qtd = 2;
+                            this.animacoes.desenhar(ctx, this.imgQuadro, funcao, qtd > 0, qtd > 1, qtd > 2, qtd > 3);
+                            break
+                        case Babitchi.Status4:
+                            var qtd = 4;
+                            this.animacoes.desenhar(ctx, this.imgQuadro, funcao, qtd > 0, qtd > 1, qtd > 2, qtd > 3);
+                            break
+                        default:
+                            this.animacoes.desenhar(ctx, this.imgQuadro, funcao);
+                    }
+                } else if (funcao == "decorrido" ){
+                    // converter Timer
+                    var days = this.dias.toString();
+                    if (days.length == 1) {
+                        days = "0" + days;
+                    }
+
+                    var hours = this.horas.toString();
+                    if (hours.length == 1) {
+                        hours = "0" + hours;
+                    }
+                    // if number of minutes less than 10, add a leading "0"
+                    var minutes = this.minutos.toString();
+                    if (minutes.length == 1) {
+                        minutes = "0" + minutes;
+                    }
+                    // if number of seconds less than 10, add a leading "0"
+                    var seconds = this.segundos.toString();
+                    if (seconds.length == 1) {
+                        seconds = "0" + seconds;
+                    }
+                    //console.log(days + "d " + hours + ":" + minutes + ":" + seconds);
+                    this.animacoes.desenhar(ctx, this.imgQuadro, funcao, days[0], days[1], hours[0], hours[1], minutes[0], minutes[1], seconds[0], seconds[1]);
+                    var temp = Date(this.dtCriado + this.timers).toString();
+                    // Wed Aug 09 2023 15:18:56 GMT-0300 (Horário Padrão de Brasília)
+                    //this.animacoes.desenhar(ctx, this.imgDecorrido, funcao, days[0], days[1], temp[16], temp[17], temp[19], temp[20], temp[22], temp[23]);
+                    //console.log(temp);
+                }
+            }
+
+            // Aciona animação de evolução e cospe o próximo objeto Tamagotchi
+            evoluir() {
+                this.destructor();
+            }
+
+            destructor() {
+                if (this.imgDecorrido !== undefined && this.imgDecorrido != null && this.imgDecorrido.width > 0) {
+                    this.imgDecorrido.close();
+                }
+                if (this.imgQuadro !== undefined && this.imgQuadro != null && this.imgQuadro.width > 0) {
+                    this.imgQuadro.close();
+                }
+            }
+        }
+
+
+        // Ovo - não tem fome, nem tristeza ou disciplina, não se suja ou fica doente
+        class Egg extends Pet {
+            constructor(imagens) {
+                super(imagens);
+                this.status = Egg.Idle;
+            }
+
+            atualizaTimer() {
+                super.atualizaTimer();
+                if (this.status == Pet.Idle && this.timer == 1) {
+                    this.setStatus(Pet.Evoluindo);
+                }
+            }
+
+            evoluir() {
+                super.evoluir();
+                return new Babitchi(this);
+            }
+        }
+
+
+        // Bebe - tem fome e tristeza rápida, se suja e fica doente em padrão, não tem disciplina
+        class Babitchi extends Pet {
+            static AlimentarRefeicao = "AlimentarRefeicao";
+            static AlimentarLanche = "AlimentarLanche";
+            static ComendoRefeicao = "ComendoRefeicao";
+            static NegandoRefeicao = "NegandoRefeicao";
+            static ComendoLanche = "ComendoLanche";
+
+            static ApagarLuz = "ApagarLuz";
+            static AcenderLuz = "AcenderLuz";
+            static DormindoLuzAcesa = "DormindoLuzAcesa";
+            static DormindoLuzApagada = "DormindoLuzApagada";
+            static AcordadoLuzApagada = "AcordadoLuzApagada";
+
+            static Brincar = "Brincar";
+            static BrincarIdle = "BrincarIdle";
+            static BrincarEE = "BrincarEE";
+            static BrincarDD = "BrincarDD";
+            static BrincarED = "BrincarED";
+            static BrincarDE = "BrincarDE";
+            static BrincarVenceu = "BrincarVenceu";
+            static BrincarPerdeu = "BrincarPerdeu";
+            static BrincarPlacar = "BrincarPlacar";
+
+
+            static Doenca = "Doenca";
+            static DoenteIdle = "DoenteIdle";
+            static Medicar = "Medicar";
+
+            static Sujando = "Sujando";
+            static Sujo = "Sujo";
+            static Banhar = "Banhar";
+
+            static Status1 = "Status1";
+            static Status2 = "Status2";
+            static Status3 = "Status3";
+            static Status4 = "Status4";
+
+            static Disciplinar = "Disciplinar";
+
+            constructor(pet) {
+                super(pet.animacoes.imagens);
+                this.timer = pet.timer;
+                this.segundos = pet.segundos;
+                this.minutos = pet.minutos;
+                this.horas = pet.horas;
+                this.dias = pet.dias;
+                this.fome = 400; // preciso calcular quanto em média de fome dividido por 4.
+                this.status = Babitchi.Idle;
+                this.imgNome = pet.imgNome;
+                //this.id = pet.id;
+                this.visivel = pet.visivel;
+            }
+
+            atualizaTimer() {
+                super.atualizaTimer();
+
+                //this.setStatus(Babitchi.Idle);
+
+                //this.setStatus(Babitchi.AlimentarRefeicao);
+                //this.setStatus(Babitchi.ComendoRefeicao);
+                //this.setStatus(Babitchi.NegandoRefeicao);
+                //this.setStatus(Babitchi.AlimentarLanche);
+                //this.setStatus(Babitchi.ComendoLanche);
+
+                //this.setStatus(Babitchi.DormindoLuzAcesa);
+                //this.setStatus(Babitchi.ApagarLuz);
+                //this.setStatus(Babitchi.DormindoLuzApagada);
+                //this.setStatus(Babitchi.AcenderLuz);
+
+                //this.setStatus(Babitchi.Sujando);
+                //this.setStatus(Babitchi.Sujo);
+                //this.setStatus(Babitchi.Banhar);
+                //this.setStatus(Babitchi.Evoluindo);
+
+                //this.setStatus(Babitchi.Brincar);
+                //this.setStatus(Babitchi.BrincarIdle);
+                //this.setStatus(Babitchi.BrincarDD);
+                //this.setStatus(Babitchi.BrincarEE);
+                //this.setStatus(Babitchi.BrincarVenceu);
+                //this.setStatus(Babitchi.BrincarDE);
+                //this.setStatus(Babitchi.BrincarED);
+                //this.setStatus(Babitchi.BrincarPerdeu);
+                //this.setStatus(Babitchi.BrincarPlacar);
+
+                //this.setStatus(Babitchi.Doenca);
+                //this.setStatus(Babitchi.DoenteIdle);
+
+                //this.setStatus(Babitchi.Status1);
+                //this.setStatus(Babitchi.Status2);
+                //this.setStatus(Babitchi.Status3);
+                //this.setStatus(Babitchi.Status4);
+            }
+
+            evoluir() {
+                return this;
+            }
+        }
+
+
+        // Criança
+        class Marutchi extends Babitchi {
+            constructor(pet) {
+                super(pet);
+            }
+
+            evoluir() {
+                adolescente = regra ? new Tamatchi(this) : new KuchiTamatchi(this);
+                return adolescente;
+            }
+        }
+
+
+        class Adolescente extends Babitchi {
+            evoluir() {
+                //adulto = regra ? new Mametchi(this) : new Ginjirotchi(this) : new Masktuchi(this) : new Kuchipatchi(this) : new Nyorotchi(this) : new Tarakotchi(this);
+                return adulto;
+            }
+        }
+        class Tamachi extends Adolescente { }
+        class KuchiTamatchi extends Adolescente { }
+
+
+        class Adulto extends Babitchi { }
+        class Mametchi extends Adulto { }
+        class Ginjirotchi extends Adulto { }
+        class Masktuchi extends Adulto { }
+        class Bill extends Adulto { }
+        class Kuchipatchi extends Adulto { }
+        class Nyorotchi extends Adulto { }
+        class Tarakotchi extends Adulto { }
+
+
+        class GerenciarPets {
+            // a cada X tempo, salva pets?, pega a lista de usuários ativos da live e os comandos fornecidos por eles
+            // descarrega os pets dos usuários q desconectaram
+            // carrega os pets salvos no localStorage dos usuários que conectaram
+            // aplica comandos aos pets ativos ou cria conforme solicitado
+
+            // cada pet precisa ter o próprio contador de tempo e animação, gerenciador de imagens igual para todos
+
+            // preciso solicitar os ids dos Pets q estão para ser desenhados na tela, não precisa ficar constantemente desenhando todos
+            constructor() {
+                this.imagens = new Imagens();
+                //this.imagens = imagens;
+
+                // Gerenciador de timers
+                this.timers = {};
+                this.FUNCAO = {
+                    TIMER: (id) => this.atualizaTimer.bind(this, id),
+                    QUADRO: (id) => this.atualizaQuadro.bind(this, id),
+                    SISTEMA: () => this.atualizaSistema.bind(this)
+                };
+                this.dtCriado = Date.now();
+
+                this.pets = {};
+
+                this.interface = document.getElementById("interface");
+                this.idSelecionado = null;
+
+                this.htmlCanvas = document.getElementById("virtualPetsBar");
+                this.ctx = this.htmlCanvas.getContext("2d");
+                //this.ctx = this.htmlCanvas.getContext("bitmaprenderer");
+                this.ctx.imageSmoothingEnabled = false;
+
+                this.ctxOffQuadro = new OffscreenCanvas(32, 16).getContext("2d");
+                this.ctxOffQuadro.imageSmoothingEnabled = false;
+
+                this.ctxOffDecorrido = new OffscreenCanvas(32, 5).getContext("2d");
+                this.ctxOffDecorrido.imageSmoothingEnabled = false;
+
+                this.ctxOffPet = new OffscreenCanvas(32, 21).getContext("2d");
+                this.ctxOffPet.imageSmoothingEnabled = false;
+
+                this.iniciarWorker("timerWorker");
+
+                this.registraTimer(5000, "", this.FUNCAO.SISTEMA);
+            }
+
+            carregarPet(id) { // Carrega objeto Pet do localStorage, preciso tomar cuidado quando o usuário muda o nome. Preciso de uma Id da Twitch
+                //this.jogos.set(id, new Jogo());
+            }
+
+            criarPet(id) {
+                if (this.pets[id] === undefined) {
+                    this.pets[id] = new Egg(this.imagens);
+                    this.pets[id].imgNome = this.desenharNome(this.ctxOffDecorrido, id);
+
+                    //this.registraTimer(100, id, this.FUNCAO.TIMER);
+                    //this.registraTimer(34, id, this.FUNCAO.QUADRO);
+
+                    this.registraTimer(1000, id, this.FUNCAO.TIMER);
+                    this.registraTimer(339, id, this.FUNCAO.QUADRO);
+
+                    //this.registraTimer(3000, id, this.FUNCAO.TIMER);
+                    //this.registraTimer(1000, id, this.FUNCAO.QUADRO);
+
+                    if (this.idSelecionado == null) {
+                        this.idSelecionado = id;
+                    }
+                    this.atualizaInterface(false);
+                } else {
+                    // A id já está em uso
+                }
+                return this.pets[id];
+            }
+
+            atualizaTimer(id) {
+                const pet = this.pets[id];
+                pet.atualizaTimer();
+
+                this.atualizaDecorrido(pet);
+                //console.log(Date(this.dtCriado + this.timers).toString());
+                //console.log(Date(this.dtCriado + this.timers));
+
+                return this.FUNCAO.TIMER;
+            }
+
+            atualizaDecorrido(pet){
+                pet.desenhar(this.ctxOffDecorrido, "decorrido");
+                if (pet.imgDecorrido !== undefined && pet.imgDecorrido != null && pet.imgDecorrido.width > 0) {
+                    pet.imgDecorrido.close();
+                }
+                pet.imgDecorrido = this.ctxOffDecorrido.canvas.transferToImageBitmap();
+            }
+            
+            atualizaQuadro(id) {
+                var pet = this.pets[id];
+                if (pet.atualizaQuadro()) {
+                    //pet.animacoes.quadro = 0;
+                    if (pet.status == Pet.Evoluindo){
+                        this.pets[id] = pet.evoluir();
+                        this.pets[id].atualizaQuadro();
+                        this.atualizaDecorrido(this.pets[id]);
+                        
+                        if (this.idSelecionado == id) {
+                            this.atualizaInterface();
+                        }
+                    } else if (pet.status == Babitchi.Brincar) {
+                        pet.setStatus(Babitchi.BrincarIdle);
+                        //pet.atualizaQuadro();
+                    } else if (pet.status == Babitchi.BrincarVenceu
+                        || pet.status == Babitchi.BrincarPerdeu
+                        ) {
+                        pet.setStatus(Babitchi.BrincarIdle);
+                        //pet.atualizaQuadro();
+                    } else if (pet.status == Babitchi.BrincarDD
+                        || pet.status == Babitchi.BrincarEE
+                        ){
+                        pet.setStatus(Babitchi.BrincarVenceu);
+                        //pet.atualizaQuadro();
+                    } else if (pet.status == Babitchi.BrincarDE
+                        || pet.status == Babitchi.BrincarED
+                        ){
+                        pet.setStatus(Babitchi.BrincarPerdeu);
+                        //pet.atualizaQuadro();
+
+                    } else if (pet.status == Babitchi.ComendoRefeicao
+                        || pet.status == Babitchi.ComendoLanche
+                        || pet.status == Babitchi.Medicar
+                        || pet.status == Babitchi.Disciplinar
+                        ) {
+                        pet.setStatus(Babitchi.Idle);
+                        //pet.atualizaQuadro();
+                    } else if (pet.status == Babitchi.Banhar) {
+                        aplicaStyle("base", "initial");
+                        pet.setStatus(Babitchi.Idle);
+                        //pet.atualizaQuadro();
+                    }
+                    pet.atualizaQuadro();
+                } else {
+                    //this.atualizaInterface(this.pets[id], false);
+                }
+                return this.FUNCAO.QUADRO;
+            }
+
+            atualizaSistema() {
+                //console.log(chrome.processes);
+                return this.FUNCAO.SISTEMA;
+            }
+
+            atualizaInterface(e){
+                const pet = this.pets[this.idSelecionado];
+                if (pet instanceof Egg){
+                    //this.interface.getElementById("food").style.visibility = "hidden";
+                    //document.getElementById("food").style.visibility = "hidden";
+                    //document.getElementById("food").disabled = true;
+                    //document.getElementById("food").style.display = "none";
+                } else {
+                    if (e === undefined) {
+                        aplicaStyle("base", "initial");
+                    } else {
+                        switch(e.value) {
+                            case "FOOD":
+                                aplicaStyle("base", "none");
+                                aplicaStyle("food", "initial");
+                                break;
+                            case "MEAL":
+                                pet.setStatus(Babitchi.ComendoRefeicao);
+                                break;
+                            case "SNACK":
+                                pet.setStatus(Babitchi.ComendoLanche);
+                                break;
+
+                            case "LAMP":
+                                aplicaStyle("base", "none");
+                                aplicaStyle("lamp", "initial");
+                                break;
+                            case "ON":
+                                pet.setStatus(Babitchi.Banhar);
+                                break;
+                            case "OFF":
+                                pet.setStatus(Babitchi.Banhar);
+                                break;
+
+                            case "PLAY":
+                                aplicaStyle("base", "none");
+                                aplicaStyle("play", "initial");
+                                pet.setStatus(Babitchi.Brincar);
+                                pet.tentativa = 0;
+                                pet.placar = 0;
+                                break;
+                            case "LEFT":
+                                if (pet.status == Babitchi.Brincar
+                                    || pet.status == Babitchi.BrincarIdle){
+                                    pet.tentativa++;
+                                    switch (Math.floor(Math.random() * 2)){
+                                        case 0:
+                                            pet.setStatus(Babitchi.BrincarEE);
+                                            pet.placar++;
+                                            break;
+                                        case 1:
+                                            pet.setStatus(Babitchi.BrincarED);
+                                            break;
+                                    }
+                                } else if (pet.status == Babitchi.BrincarDD
+                                    || pet.status == Babitchi.BrincarEE){
+                                    pet.setStatus(Babitchi.BrincarVenceu);
+                                } else if (pet.status == Babitchi.BrincarDE
+                                    || pet.status == Babitchi.BrincarED) {
+                                    pet.setStatus(Babitchi.BrincarPerdeu);
+                                } else if ((pet.status == Babitchi.BrincarVenceu
+                                    || pet.status == Babitchi.BrincarPerdeu) && pet.tentativa == 5){
+                                    pet.setStatus(Babitchi.BrincarPlacar);
+                                    pet.tentativa = -1;
+                                } else if (pet.status == Babitchi.BrincarPlacar && pet.placar >= 0 && pet.placar <= 2) {
+                                    pet.setStatus(Babitchi.BrincarPerdeu);
+                                } else if (pet.status == Babitchi.BrincarPlacar && pet.placar >= 3 && pet.placar <= 5) {
+                                    pet.setStatus(Babitchi.BrincarVenceu);
+                                } else if ((pet.status == Babitchi.BrincarPerdeu
+                                    || pet.status == Babitchi.BrincarVenceu) && pet.tentativa == -1
+                                    ) {
+                                    pet.setStatus(Babitchi.Brincar);
+                                    pet.placar = 0;
+                                }
+                                break;
+                            case "RIGHT":
+                                if (pet.status == Babitchi.Brincar
+                                    || pet.status == Babitchi.BrincarIdle){
+                                    pet.tentativa++;
+                                    switch (Math.floor(Math.random() * 2)){
+                                        case 0:
+                                            pet.setStatus(Babitchi.BrincarDD);
+                                            pet.placar++;
+                                            break;
+                                        case 1:
+                                            pet.setStatus(Babitchi.BrincarDE);
+                                            break;
+                                    }
+                                } else if (pet.status == Babitchi.BrincarDD
+                                    || pet.status == Babitchi.BrincarEE){
+                                    pet.setStatus(Babitchi.BrincarVenceu);
+                                } else if (pet.status == Babitchi.BrincarDE
+                                    || pet.status == Babitchi.BrincarED) {
+                                    pet.setStatus(Babitchi.BrincarPerdeu);
+                                } else if ((pet.status == Babitchi.BrincarVenceu
+                                    || pet.status == Babitchi.BrincarPerdeu) && pet.tentativa == 5){
+                                    pet.setStatus(Babitchi.BrincarPlacar);
+                                    pet.tentativa = -1;
+                                } else if (pet.status == Babitchi.BrincarPlacar && pet.placar >= 0 && pet.placar <= 2) {
+                                    pet.setStatus(Babitchi.BrincarPerdeu);
+                                } else if (pet.status == Babitchi.BrincarPlacar && pet.placar >= 3 && pet.placar <= 5) {
+                                    pet.setStatus(Babitchi.BrincarVenceu);
+                                } else if ((pet.status == Babitchi.BrincarPerdeu
+                                    || pet.status == Babitchi.BrincarVenceu) && pet.tentativa == -1
+                                    ) {
+                                    pet.setStatus(Babitchi.Brincar);
+                                    pet.placar = 0;
+                                }
+                                break;
+
+                            case "BATH":
+                                aplicaStyle("base", "none");
+                                pet.setStatus(Babitchi.Banhar);
+                                break;
+                            case "MEDS":
+                                pet.setStatus(Babitchi.Medicar);
+                                break;
+                            case "STATS":
+                                aplicaStyle("base", "none");
+                                aplicaStyle("stats", "initial");
+                                if (pet.status == Babitchi.Status1){
+                                    pet.setStatus(Babitchi.Status2);
+                                } else if (pet.status == Babitchi.Status2){
+                                    pet.setStatus(Babitchi.Status3);
+                                } else if (pet.status == Babitchi.Status3){
+                                    pet.setStatus(Babitchi.Status4);
+                                } else {
+                                    pet.setStatus(Babitchi.Status1);
+                                }
+                                break;
+                            case "SHOUT":
+                                pet.setStatus(Babitchi.Disciplinar);
+                                break;
+
+                            case "BACK":
+                                pet.setStatus(Babitchi.Idle);
+                                aplicaStyle("base", "initial");
+                                aplicaStyle("food", "none");
+                                aplicaStyle("lamp", "none");
+                                aplicaStyle("play", "none");
+                                break;
+
+                        }
+                    }
+                    //document.getElementById("food").style.display = "initial";
+                    //document.getElementById("food").style.display = "none";
+                    //document.getElementById("food").style.display = "none";
+                    //document.getElementById("food").style.display = "none";
+                }
+            }
+
+//            aplicaStyle(c, display){
+//                const collection = document.getElementsByClassName(c);
+//                    for (let i = 0; i < collection.length; i++) {
+//                        collection[i].style.display = display;
+//                    }                    
+//            }
+
+            desenhar() {
+                let x = 0 , y = 0, w = 33, h = 22, temp = (Math.floor(this.ctx.canvas.width / w));
+                this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+                var totalPets = 0;
+                for (const pet of Object.values(this.pets)){
+                    totalPets++;
+                }
+
+                for (const [key, value] of Object.entries(resolucoes)){
+                    if (key >= totalPets){
+                        w = value.w;
+                        h = value.h;
+                        temp = value.nw;
+                        break;
+                    }
+                }
+
+                for (const pet of Object.values(this.pets)){
+                    //this.ctx.beginPath();
+                    //this.ctx.lineWidth = 1;
+                    //this.ctx.rect(x, y, 34, 23);
+                    //this.ctx.stroke();
+                    
+                    if (pet.visivel) {
+                        this.ctxOffPet.clearRect(0, 0, this.ctxOffPet.canvas.width, this.ctxOffPet.canvas.height);
+
+                        if (pet.status == Babitchi.Status1
+                            || pet.status == Babitchi.Status2
+                            || pet.status == Babitchi.Status3
+                            || pet.status == Babitchi.Status4 ) {
+                            if (pet.imgDecorrido !== undefined && pet.imgDecorrido != null && pet.imgDecorrido.width > 0) {
+                                this.ctxOffPet.drawImage(pet.imgDecorrido, 0, 0);
+                            }
+                        } else {
+                            this.ctxOffPet.drawImage(pet.imgNome, 0, 0);
+                        }
+
+                        pet.desenhar(this.ctxOffQuadro, "quadro");
+                        if (pet.imgQuadro !== undefined && pet.imgQuadro != null && pet.imgQuadro.width > 0) {
+                            pet.imgQuadro.close();
+                        }
+                        pet.imgQuadro = this.ctxOffQuadro.canvas.transferToImageBitmap();
+
+                        this.ctxOffPet.drawImage(pet.imgQuadro, 0, 5);
+
+                        this.ctx.imageSmoothingEnabled = false;
+                        this.ctx.drawImage(this.ctxOffPet.canvas, 0, 0, this.ctxOffPet.canvas.width, this.ctxOffPet.canvas.height, x+1, y+1, w-1, h-1);
+
+                        x += w;
+                        //console.log("maxWidth: " + temp);
+                        if ( x >= w * temp){
+                            x = 0;
+                            y+= h;
+                        }
+                    }
+                }
+            }
+
+            desenharNome(ctx, nome){
+                const sNome = nome.toString();
+                ctx.width = sNome.length * 4;
+                var codigo = -1;
+                for (var i = 0; i < sNome.length; i++){
+                    //codigo = sNome.charCodeAt(i);
+                    //codigo = sNome[i];
+                    codigo = sNome[i].codePointAt(0);
+                    switch(codigo){
+                        case 48: // 0
+                        case 49:
+                        case 50:
+                        case 51:
+                        case 52:
+                        case 53:
+                        case 54:
+                        case 55:
+                        case 56:
+                        case 57: // 9
+                        case 58: // :
+                            codigo = codigo - 48;
+                            break;
+                        case 65: // A
+                        case 66:
+                        case 67:
+                        case 68:
+                        case 69:
+                        case 70:
+                        case 71:
+                        case 72:
+                        case 73:
+                        case 74:
+                        case 75:
+                        case 76:
+                        case 77:
+                        case 78:
+                        case 79:
+                        case 80:
+                        case 81:
+                        case 82:
+                        case 83:
+                        case 84:
+                        case 85:
+                        case 86:
+                        case 87:
+                        case 88:
+                        case 89:
+                        case 90: // Z
+                            codigo = codigo - 54;
+                            break;
+                        case 97: // a
+                        case 98:
+                        case 99:
+                        case 101:
+                        case 102:
+                        case 103:
+                        case 104:
+                        case 105:
+                        case 106:
+                        case 107:
+                        case 108:
+                        case 109:
+                        case 110:
+                        case 111:
+                        case 112:
+                        case 113:
+                        case 114:
+                        case 115:
+                        case 116:
+                        case 117:
+                        case 118:
+                        case 119:
+                        case 120:
+                        case 121:
+                        case 122: // z
+                            codigo = codigo - 60;
+                            break;
+
+                    }
+                    if (codigo > 0) {
+                        this.imagens.desenhar(ctx, Imagens.Fonte3x5[codigo], i * 4, 0);
+                    }
+                }
+                const img = ctx.canvas.transferToImageBitmap();
+                ctx.width = 32;
+                return img;
+            }
+
+            // Gerenciador de timers
+            iniciarWorker(nome) {
+                var blob = new Blob([
+                    document.querySelector('#' + nome).textContent
+                ], { type: "text/javascript" })
+
+                // Note: window.webkitURL.createObjectURL() in Chrome 10+.
+                this.worker = new Worker(window.URL.createObjectURL(blob));
+                this.worker.onmessage = (event) => {
+                    if (event.data) {
+                        var d = performance.now();
+                        var diff = 0;
+                        var sInterval = event.data.payload.toString();
+                        var msg = "";
+
+                        if (this.timers[sInterval]["funcoes"].length > 0) {
+                            diff = d - this.timers[sInterval]["last"];
+                            //msg = event.data.payload + "ms: " + d + " diff: " + diff + "(" + (diff - event.data.payload) + ")";
+                            if (diff > event.data.payload * 1.50) {
+                                msg = event.data.payload + "ms: " + d + " diff: " + diff + "(" + (diff - event.data.payload) + ")";
+                                console.error(msg);
+                            } else {
+                                //console.log(msg);
+                            }
+                            this.timers[sInterval]["last"] = d;
+
+                            for (const timer of this.timers[sInterval]["funcoes"]){
+                                switch (timer.call()){
+                                    case this.FUNCAO.QUADRO:
+                                        this.atualiza = true;
+                                        break;
+                                    case this.FUNCAO.TIMER:
+                                        break;
+                                    case this.FUNCAO.SISTEMA:
+                                        //this.atualizaSistema();
+                                        break;
+                                }
+                            }
+                        } else {
+                            delete this.timers[sInterval];
+
+                            this.worker.postMessage({ type: "remove", payload: event.data.payload });
+                        }
+                    }
+                }
+            }
+
+            registraTimer(interval, id, FUNCAO) {
+                const sInterval = interval.toString();
+                if (this.timers[sInterval] === undefined) {
+                    this.timers[sInterval] = { funcoes: [], last: performance.now()};
+                }
+                
+                switch(FUNCAO){
+                    case this.FUNCAO.TIMER:
+                    case this.FUNCAO.QUADRO:
+                    case this.FUNCAO.SISTEMA:
+                        this.timers[sInterval]["funcoes"].push(FUNCAO(id));
+                        break;
+                }
+
+                this.worker.postMessage({ type: "registra", payload: interval });
+            }
+
+            removeTimer(interval, id, FUNCAO) {
+                const sInterval = interval.toString();
+                var index = -1;
+
+                if (this.timers[sInterval] !== undefined) {
+                    switch(FUNCAO){
+                        case this.FUNCAO2.TIMER:
+                        case this.FUNCAO2.QUADRO:
+                        case this.FUNCAO2.SISTEMA:
+                            index = this.timers[sInterval]["funcoes"].indexOf(FUNCAO(id));
+                            break;
+                    }
+                    if (index > 1) {
+                        this.timers[sInterval]["funcoes"].splice(index, 1);
+                    }
+                }
+            }
+
+            destructor(){
+                for (var timer of this.timers){
+                    timer = {};
+                }
+
+                clearInterval();
+                this.worker.terminate();
+            }
+        }
+
+        function aplicaStyle(c, display){
+            const collection = document.getElementsByClassName(c);
+                for (let i = 0; i < collection.length; i++) {
+                    collection[i].style.display = display;
+                }                    
+        }
+
+
+        const gerenciarPets = new GerenciarPets();
+        var resolucoes = {};
+
+        function resize(){
+            var width = window.innerWidth;
+            var height = window.innerHeight - 40;
+            var w = 33, h = 22;
+
+            resolucoes = {};
+            for (var i = 1, a = 0, b = 0, c = 0, d = 0, e = 0; (e = ((b = Math.floor(width/(a = w*i)))) * (d = Math.floor(height/(c = h*i)))) > 0; i++) {
+            	resolucoes[e] = { w: a, nw: b, h: c, nh: d };
+            }
+            //const interface = document.getElementById("interface");
+            gerenciarPets.ctx.canvas.width = width;
+            gerenciarPets.ctx.canvas.height = height;
+
+            var values = Object.values(resolucoes);
+            //interface.style.width = values[0].w + "px";
+            //gerenciarPets.ctx.canvas.width = values[0].w;
+            //gerenciarPets.ctx.canvas.height = values[0].h;
+
+
+            console.log("width: " + width + " height: " + height)
+            console.log(resolucoes);
+        }
+
+        window.addEventListener('resize', resize, true);
+
+        resize();
+
+        function gameLoop() {
+            //gerenciarPets.ctx.canvas.width = window.innerWidth;
+            //gerenciarPets.ctx.canvas.height = window.innerHeight;
+
+            if (gerenciarPets.atualiza) {
+                gerenciarPets.desenhar();
+                gerenciarPets.atualiza = false;
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+
+        /*
+        gerenciarPets.criarPet("pioalpha").visivel = true;
+        gerenciarPets.criarPet("fernanda").visivel = true;
+        gerenciarPets.criarPet("cauby");
+        */
+        for (var i = 0; i < 100; i++){
+            //gerenciarPets.criarPet(i);
+            //gerenciarPets.criarPet(i).visivel = true;
+        }
+
+    </script>
+</body>
 </html>
-
